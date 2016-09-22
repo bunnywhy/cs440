@@ -3,9 +3,8 @@
 #include <string>
 #include <iostream>
 #include <queue>
-#include <stack>
 #include <cmath>
-// using std:: queue;
+#include <stdio.h>
 int DFS(void);
 int GFS(void);
 int AS(void);

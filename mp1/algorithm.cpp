@@ -3,6 +3,7 @@
 #define y_max 21
 #define x_min 0
 #define y_min 0
+
 int MD(int x, int y, int end_x, int end_y)
 {
 	return abs(x - end_x) + abs(y - end_y);
