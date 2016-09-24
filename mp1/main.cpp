@@ -27,7 +27,7 @@ void printMaze(char* argv)
 	in = fopen(argv, "r");
 	
 	//char *maze = new char [column*row];
-	char maze[row*column];
+	char *maze = new char[row*column];
 
 	do
 	{
@@ -45,13 +45,13 @@ void printMaze(char* argv)
 		for (int j = 0; j < column ; j++)
 		{
 			if (maze[i * column + j] == 'P'){
-				start.x = i;
-				start.y = j;
+				start.x = j;
+				start.y = i;
 			}
 			else if (maze[i * column + j] == '.')
 			{
-				endpoint[dot_counter].x = i;
-				endpoint[dot_counter].y = j;
+				endpoint[dot_counter].x = j;
+				endpoint[dot_counter].y = i;
 				dot_counter++;
 			}
 			cout << maze[i * column + j];
@@ -63,8 +63,12 @@ void printMaze(char* argv)
 	if( GFS(maze,start, endpoint[0]) ==1)
 		draw_path(maze);
 	else
+	{
 		cout<<"failed"<<endl;
+		draw_path(maze);
+	}
 	
+	delete [] maze;
 
 }
 
@@ -73,13 +77,15 @@ int main(int argc, char *argv[])
 	char c=0;
 	row = 0;
 	column = 0;
-
+	char test[15] = "mediumMaze.txt";
 	if (argc != 2)
 	{
 		cout << "need 2 arguements" << endl;
-		return -1;
+		in = fopen(test, "r");
+		//return -1;
 	}
-	in = fopen(argv[1], "r");
+	else
+		in = fopen(argv[1], "r");
 	if (in == NULL)
 	{
 		cout << "Cannot open file" << endl;
@@ -113,6 +119,8 @@ int main(int argc, char *argv[])
 
 
 	fclose(in);
+	if (argc != 2)
+		printMaze(test);
 	printMaze(argv[1]);
 	return 0;
 }

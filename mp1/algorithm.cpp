@@ -1,5 +1,5 @@
 #include "algorithm.h"
-#define x_max 42
+#define x_max 41
 #define y_max 21
 #define x_min 0
 #define y_min 0
@@ -9,7 +9,7 @@
 
 int MD(coord curr, coord end)
 {
-	return abs(curr.x - end.x) + abs(curr.y - end.y);
+	return (abs(curr.x - end.x) + abs(curr.y - end.y));
 }
 
 bool coord::operator==(const coord &other) const 
@@ -28,15 +28,19 @@ int get_cord(coord curr)
 
 int check_cell( char* maze, coord curr)
 {
+	//Boundary Check
 	if( curr.x>= x_max || curr.x<= x_min || curr.y>= y_max || curr.y<= y_min)
 		return 0;
 
-	if(maze[get_cord(curr)] == '%' || maze[get_cord(curr)] == 'X')
+	//Location content test
+	if(maze[get_cord(curr)] == '%' || maze[get_cord(curr)] == 'X' || maze[get_cord(curr)] == 'N')
 		return 0;
 
+	//Goal Test
 	if(maze[get_cord(curr)] == '.')
 		return 2;
 
+	//valid
 	else
 		return 1;
 }
@@ -116,14 +120,14 @@ int DFS(void)
 int GFS(char* maze, coord start, coord end)
 {
 	int point=0;
-	coord path[300];
+	coord path[400];
 
-	if(GFS_Recurr(maze, start, end, path, point)==-1 || point ==0)
+	if(GFS_Recurr(maze, start, end, path, point)==-1)
 		return -1;
 
 	else
 	{
-		for(int i=0 ; i<point ;  point++)
+		for(int i=0 ; i<point ;  i++)
 		{
 			maze[get_cord(path[i])] = '^';
 		}
@@ -138,6 +142,7 @@ int GFS_Recurr(char* maze, coord curr, coord end, coord* path, int &point)
 {
 	int ret_val=0;
 	coord next;
+
 	//Check location with end point
 	if(check_cell(maze, curr) ==2)
 		return 1;
@@ -159,31 +164,38 @@ int GFS_Recurr(char* maze, coord curr, coord end, coord* path, int &point)
 			{
 				next.x = curr.x;
 				next.y = curr.y-1;
+				break;
 			}
 
 			case 1:
 			{
 				next.x = curr.x;
 				next.y = curr.y+1;
+				break;
 			}
 
 			case 2:
 			{
 				next.x = curr.x-1;
 				next.y = curr.y;
+				break;
 			}
 
 			case 3:
 			{
 				next.x = curr.x+1;
 				next.y = curr.y;
+				break;
 			}
 
 			case -1:
 			{
 				point--;
-				return -1;
+				break;
 			}
+
+			default:
+			break;
 		}
 
 		ret_val = GFS_Recurr(maze, next, end, path, point);
@@ -192,9 +204,9 @@ int GFS_Recurr(char* maze, coord curr, coord end, coord* path, int &point)
 		if(ret_val == 1)
 			return 1;
 
-		else if(ret_val == -1)
-			return -1;
 	}
+	if(ret_val == -1)
+		maze[get_cord (curr)] = 'N';
 	
 	return -1;
 }
@@ -212,7 +224,7 @@ int GFS_move(char* maze, coord start, coord end)
 	 neighbor.x = start.x;
 	 neighbor.y = start.y-1;
 	 curr_dist= MD(neighbor, end);
-	 if( ( curr_dist < curr_min) &&  check_cell(maze, neighbor) ==1)
+	 if( ( curr_dist < curr_min) && check_cell(maze, neighbor) ==1)
 	 {
 	 		curr_min  = curr_dist;
 	 		direction = 0;
