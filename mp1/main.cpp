@@ -27,7 +27,7 @@ void printMaze(){
 	cout << column << " " << row << endl;
 	for (i = 0; i < row; i++)
 	{
-		for (int j = 0; j < column - 1; j++)
+		for (int j = 0; j < column; j++)
 		{
 			if (maze[i * column + j] == 'P'){
 				xStart = i;
