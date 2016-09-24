@@ -21,4 +21,8 @@ int BFS(char *maze, int x_start, int y_start, int* x_end, int* y_end);
 int BFS_R(char *maze, int* x_end, int* y_end, std::queue<int> &qx, std::queue<int> &qy);
 int get_cord(int x, int y);
 int check_cell(char* maze, int x, int y);
+
+int GFS_move(char* maze, coord start, coord end);
+int GFS_Recurr(char* maze, coord curr, coord end, coord* path, int &point);
+
 #endif

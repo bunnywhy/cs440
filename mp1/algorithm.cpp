@@ -105,18 +105,13 @@ int DFS(void)
 int GFS(char* maze, coord start, coord end)
 {
 	coord path[200];
-	coord start, end;
 	int point=0;
-	start.x = x;
-	start.y = y;
-	end.x 	= x_end;
-	end.y 	= y_end;
 
 
 	return 0;
 }
 
-int GFS_Recurr(char* maze, coord cuur, coord end, coord* path, int &point)
+int GFS_Recurr(char* maze, coord curr, coord end, coord* path, int &point)
 {
 	int ret_val=0;
 	coord next;
@@ -126,7 +121,7 @@ int GFS_Recurr(char* maze, coord cuur, coord end, coord* path, int &point)
 
 	//Mark current location as  discovered
 	if(check_cell(maze, cuur.x, curr.y) ==1)
-		maze[get_cord (curr.x, curr.y)] = 'X'
+		maze[get_cord (curr.x, curr.y)] = 'X';
 
 	//Append current location to path
 	path[point] = cuur;
