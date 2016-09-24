@@ -5,6 +5,7 @@
 #include <queue>
 #include <cmath>
 #include <stdio.h>
+#include <map>
 int DFS(void);
 int GFS(void);
 int AS(void);
