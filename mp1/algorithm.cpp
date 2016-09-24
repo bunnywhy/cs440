@@ -26,15 +26,15 @@ int get_cord(coord curr)
 	return (curr.x+curr.y*x_max);
 }
 
-int check_cell( char* maze, int x, int y)
+int check_cell( char* maze, coord curr)
 {
-	if( x>= x_max || x<= x_min || y>= y_max || y<= y_min)
+	if( curr.x>= x_max || curr.x<= x_min || curr.y>= y_max || curr.y<= y_min)
 		return 0;
 
-	if(maze[get_cord(x,y)] == '%' || maze[get_cord(x,y)] == 'X')
+	if(maze[get_cord(curr)] == '%' || maze[get_cord(curr)] == 'X')
 		return 0;
 
-	if(maze[get_cord(x,y)] == '.')
+	if(maze[get_cord(curr)] == '.')
 		return 2;
 
 	else
@@ -124,12 +124,13 @@ int GFS(char* maze, coord start, coord end)
 	{
 		for(int i=0 ; i<point ;  point++)
 		{
-			maze[get_cord()]
+			maze[get_cord(path[i])] = "^";
 		}
+		return 0;
 	}
 
 
-	return 0;
+	return -1;
 }
 
 int GFS_Recurr(char* maze, coord curr, coord end, coord* path, int &point)
