@@ -12,6 +12,7 @@ class coord
 	public:
 		int x;
 		int y;	
+		bool operator==(const coord &other) const ;
 };
 int DFS(void);
 int GFS(void);

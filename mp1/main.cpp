@@ -1,19 +1,21 @@
 #include "algorithm.h"
 using namespace std;
 
-int xStart, yStart;
-int xEnd[30] = {0};
-int yEnd[30] = {0};
-void printMaze(){
-	FILE *in;
-	int row = 21;
-	int column = 42;
+FILE *in;
+coord start;
+coord endpoint[30];
+int row, column =0;
+
+void printMaze(char* argv)
+{
 	char c=0;
-	int dot_counter = 0;
-	in = fopen("mediumMaze.txt", "r");
 	int i = 0;
+	int dot_counter = 0;
+	in = fopen(argv, "r");
+	
 	//char *maze = new char [column*row];
-	char maze[42*21];
+	char maze[row*column];
+
 	do
 	{
 		c = (char)fgetc(in);
@@ -27,16 +29,16 @@ void printMaze(){
 	cout << column << " " << row << endl;
 	for (i = 0; i < row; i++)
 	{
-		for (int j = 0; j < column; j++)
+		for (int j = 0; j < column ; j++)
 		{
 			if (maze[i * column + j] == 'P'){
-				xStart = i;
-				yStart = j;
+				start.x = i;
+				start.y = j;
 			}
 			else if (maze[i * column + j] == '.')
 			{
-				xEnd[dot_counter] = i;
-				yEnd[dot_counter] = j;
+				endpoint[dot_counter].x = i;
+				endpoint[dot_counter].y = j;
 				dot_counter++;
 			}
 			cout << maze[i * column + j];
@@ -47,10 +49,10 @@ void printMaze(){
 
 int main(int argc, char *argv[])
 {
-	FILE *in;
 	char c=0;
-	int row = 0;
-	int column = 0;
+	row = 0;
+	column = 0;
+
 	if (argc != 2)
 	{
 		cout << "need 2 arguements" << endl;
@@ -62,6 +64,7 @@ int main(int argc, char *argv[])
 		cout << "Cannot open file" << endl;
 		return -1;
 	}
+
 	do
 	{
 		c = (char)fgetc(in);
@@ -89,6 +92,16 @@ int main(int argc, char *argv[])
 
 
 	fclose(in);
-	printMaze();
+	printMaze(argv[1]);
 	return 0;
 }
+
+
+void draw_path(char * maze)
+{
+
+}
+/* Can we make two global arrays (one for x and one for y) to save the path we figured out
+   by the algorithms to print it out?
+*/ 
+

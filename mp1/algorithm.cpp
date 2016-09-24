@@ -4,6 +4,8 @@
 #define x_min 0
 #define y_min 0
 
+
+
 int MD(int x, int y, int end_x, int end_y)
 {
 	return abs(x - end_x) + abs(y - end_y);
@@ -80,7 +82,10 @@ int get_cord(int x, int y)
 
 int check_cell( char* maze, int x, int y)
 {
-	if(maze[get_cord(x,y)] == '.' || maze[get_cord(x,y)] == '%')
+	if( x>= x_max || x<= x_min || y>= y_max || y<= y_min)
+		return 0;
+
+	if(maze[get_cord(x,y)] == '.' || maze[get_cord(x,y)] == '%' || maze[get_cord(x,y)] == 'X')
 		return 0;
 
 	else
@@ -89,12 +94,80 @@ int check_cell( char* maze, int x, int y)
 
 int DFS(void)
 {
+
+	return 0;
+
+}
+
+int GFS(char* maze, int x, int y, int x_end, int y_end)
+{
+	coord path[200];
+	coord start, end;
+	int point=0;
+	start.x = x;
+	start.y = y;
+	end.x 	= x_end;
+	end.y 	= y_end;
+
+
 	return 0;
 }
 
-int GFS(void)
+int GFS_Recurr(char* maze, int x, int y, int x_end, int y_end, int &point)
 {
+	//Mark current location as  discovered
+
+	//Push next locaion
+
+	//Check return value
+
+	//Push next loc
+
+	//if
 	return 0;
+}
+
+
+// 0=up , 1=down , 2=left, 3=right
+int GFS_move(char* maze, coord start, coord end)
+{
+	 int curr_min, direction, curr_dist=0;
+	 curr_min = 999999;
+
+	 //Check heuristic of moving up
+	 curr_dist= MD(start.x, (start.y-1), end.x, end.y);
+	 if( ( curr_dist < curr_min) &&  check_cell(maze, start.x, (start.y-1) ) ==1)
+	 {
+	 		curr_min = curr_dist;
+	 		direction = 0;
+	 }
+
+	 //Check heuristic of moving down
+	 curr_dist= MD(start.x, (start.y+1), end.x, end.y);
+	 if( ( curr_dist < curr_min) &&  check_cell(maze, start.x, (start.y+1)) ==1)
+	 {
+	 		curr_min = curr_dist;
+	 		direction = 1;
+	 }
+
+	 //Check heuristic of moving left
+	 curr_dist= MD((start.x-1), start.y, end.x, end.y);
+	 if( ( curr_dist < curr_min) &&  check_cell(maze, (start.x-1), start.y)  ==1)
+	 {
+	 		curr_min = curr_dist;
+	 		direction = 2;
+	 }
+
+	 //Check heuristic of moving right
+	 curr_dist= MD((start.x+1), start.y, end.x, end.y);
+	 if( ( curr_dist < curr_min) &&  check_cell(maze, (start.x+1), start.y  ) ==1)
+	 {
+	 		curr_min = curr_dist;
+	 		direction = 3;
+	 }
+
+	 //Return shortest distance direction
+	 return direction;
 }
 
 int AS(void)
