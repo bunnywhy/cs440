@@ -1,16 +1,17 @@
 #include "algorithm.h"
 using namespace std;
 
-coord endpoint[30];
-coord start;
-int row, column =0;
 FILE *in;
-void printMaze()
+coord start;
+coord endpoint[30];
+int row, column =0;
+
+void printMaze(char* argv)
 {
 	char c=0;
 	int i = 0;
 	int dot_counter = 0;
-	in = fopen("mediumMaze.txt", "r");
+	in = fopen(argv, "r");
 	
 	//char *maze = new char [column*row];
 	char maze[row*column];
@@ -28,7 +29,7 @@ void printMaze()
 	cout << column << " " << row << endl;
 	for (i = 0; i < row; i++)
 	{
-		for (int j = 0; j < column - 1; j++)
+		for (int j = 0; j < column ; j++)
 		{
 			if (maze[i * column + j] == 'P'){
 				start.x = i;
@@ -91,12 +92,15 @@ int main(int argc, char *argv[])
 
 
 	fclose(in);
-	printMaze();
+	printMaze(argv[1]);
 	return 0;
 }
 
 
-void draw_path(char * maze, )
+void draw_path(char * maze)
+{
+
+}
 /* Can we make two global arrays (one for x and one for y) to save the path we figured out
    by the algorithms to print it out?
 */ 
