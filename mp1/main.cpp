@@ -6,6 +6,19 @@ coord start;
 coord endpoint[30];
 int row, column =0;
 
+void draw_path(char * maze)
+{
+	int i = 0;
+	for (i = 0; i < row; i++)
+	{
+		for (int j = 0; j < column ; j++)
+		{
+			cout << maze[i * column + j];
+		}
+		cout << endl;
+	}
+}
+
 void printMaze(char* argv)
 {
 	char c=0;
@@ -45,6 +58,14 @@ void printMaze(char* argv)
 		}
 		cout << endl;
 	}
+	cout<<"start:("<<start.x<< ", "<<start.y<<")"<<endl;
+	cout<<"end:("<<endpoint[0].x<< ", "<<endpoint[0].y<<")"<<endl;
+	if( GFS(maze,start, endpoint[0]) ==1)
+		draw_path(maze);
+	else
+		cout<<"failed"<<endl;
+	
+
 }
 
 int main(int argc, char *argv[])
@@ -97,10 +118,7 @@ int main(int argc, char *argv[])
 }
 
 
-void draw_path(char * maze)
-{
 
-}
 /* Can we make two global arrays (one for x and one for y) to save the path we figured out
    by the algorithms to print it out?
 */ 

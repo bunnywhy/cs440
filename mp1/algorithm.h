@@ -18,7 +18,7 @@ class coord
 };
 
 //Manhatten distance calc.
-int MD(coor curr, coord end);
+int MD(coord curr, coord end);
 
 //coordinate for maze array calc
 int get_cord(coord curr);
@@ -33,14 +33,14 @@ int check_cell(char* maze, coord curr);
 int AS(void);
 
 //Bread first search
-int BFS(char *maze, int x_start, int y_start, int* x_end, int* y_end);
-int BFS_R(char *maze, int* x_end, int* y_end, std::queue<int> &qx, std::queue<int> &qy);
+int BFS(char *maze, coord start, coord end);
+int BFS_R(char *maze,coord end, std::queue<coord> &pathq);
 
 //Depth first search
 int DFS(void);
 
 //Greedy first search
-int GFS(void);
+int GFS(char* maze, coord start, coord end);
 int GFS_move(char* maze, coord start, coord end);
 int GFS_Recurr(char* maze, coord curr, coord end, coord* path, int &point);
 
