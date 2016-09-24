@@ -4,37 +4,66 @@
 #define x_min 0
 #define y_min 0
 
+				//Commmon Class + functions//
+//---------------------------------------------------------------//
 
-
-int MD(int x, int y, int end_x, int end_y)
+int MD(coor curr, coord end)
 {
-	return abs(x - end_x) + abs(y - end_y);
+	return abs(curr.x - end.x) + abs(curr.y - end.y);
 }
 
-int BFS(char *maze, int x_start, int y_start, int* x_end, int* y_end)
+bool coord::operator==(const coord &other) const 
+ {
+ 	if( other.x == this->x && other.y == this->y)
+ 		return true;
+
+ 	else
+ 		return false;
+ }
+
+int get_cord(coord curr)
 {
-	std::queue<int> qx;
-	std::queue<int> qy;
-	qx.push(x_start);
-	qy.push(y_start);
-	return BFS_R(maze, x_end, y_end, qx, qy);
+	return (curr.x+curr.y*x_max);
 }
 
-int BFS_R(char *maze, int* x_end, int* y_end, std::queue<int> &qx, std::queue<int> &qy)
+int check_cell( char* maze, int x, int y)
 {
-	int x,y;
-	x = qx.front();
-	qx.pop();
+	if( x>= x_max || x<= x_min || y>= y_max || y<= y_min)
+		return 0;
 
-	y = qy.front();
-	qy.pop();
+	if(maze[get_cord(x,y)] == '%' || maze[get_cord(x,y)] == 'X')
+		return 0;
 
-	if ( ((x == x_end[0]) && (y == y_end[0])) )
+	if(maze[get_cord(x,y)] == '.')
+		return 2;
+
+	else
+		return 1;
+}
+							//BFS//
+//-----------------------------------------------------------------//
+
+int BFS(char *maze, coord start, coord end)
+{
+	std::queue<coord> pathq;
+	qx.push(start);
+	return BFS_R(maze, end, pathq);
+}
+
+int BFS_R(char *maze,coord end, std::queue<coord> &pathq)
+{
+	path curr;
+
+	curr = pathq.front();
+	pathq.pop();
+
+
+	if (curr == end)
 	{
 		return 1;
 	}
 
-	else if ( qx.empty())
+	else if ( pathq.empty())
 	{
 		return -1;
 	}
@@ -42,10 +71,10 @@ int BFS_R(char *maze, int* x_end, int* y_end, std::queue<int> &qx, std::queue<in
 	else
 	{
 		//Modify current loc. status
-		maze[get_cord(x,y)] = '.';
+		maze[get_cord(curr)] = '.';
 
 		//Push Right Neighbor
-		if( check_cell( maze,(x+1), y) && ((x+1)<=x_max) )
+		if( check_cell( maze,(curr.x+1), y) && ((curr.x+1)<=x_max) )
 		{
 			qx.push(x+1);
 			qy.push(y);
@@ -75,22 +104,6 @@ int BFS_R(char *maze, int* x_end, int* y_end, std::queue<int> &qx, std::queue<in
 
 }
 
-int get_cord(int x, int y)
-{
-	return (x+y*x_max);
-}
-
-int check_cell( char* maze, int x, int y)
-{
-	if( x>= x_max || x<= x_min || y>= y_max || y<= y_min)
-		return 0;
-
-	if(maze[get_cord(x,y)] == '.' || maze[get_cord(x,y)] == '%' || maze[get_cord(x,y)] == 'X')
-		return 0;
-
-	else
-		return 1;
-}
 
 int DFS(void)
 {
@@ -99,32 +112,88 @@ int DFS(void)
 
 }
 
-int GFS(char* maze, int x, int y, int x_end, int y_end)
+int GFS(char* maze, coord start, coord end)
 {
-	coord path[200];
-	coord start, end;
 	int point=0;
-	start.x = x;
-	start.y = y;
-	end.x 	= x_end;
-	end.y 	= y_end;
+	coord path[200];
+
+	if(GFS_Recurr(maze, start, end, path, point)==-1 || point ==0);
+		return -1;
+
+	else
+	{
+		for(int i=0 ; i<point ;  point++)
+		{
+			maze[get_cord()]
+		}
+	}
 
 
 	return 0;
 }
 
-int GFS_Recurr(char* maze, int x, int y, int x_end, int y_end, int &point)
+int GFS_Recurr(char* maze, coord curr, coord end, coord* path, int &point)
 {
+	int ret_val=0;
+	coord next;
+	//Check location with end point
+	if(check_cell(maze, cuur.x, curr.y) ==2)
+		return 1;
+
 	//Mark current location as  discovered
+	if(check_cell(maze, cuur.x, curr.y) ==1)
+		maze[get_cord (curr.x, curr.y)] = 'X';
 
-	//Push next locaion
+	//Append current location to path
+	path[point] = cuur;
+	point++;
 
-	//Check return value
+	//Push next locaion 
+	for(int i=0; i<4 ; i++)
+	{
+		switch(GFS_move(maze,curr.x,curr.y))
+		{
+			case 0:
+			{
+				next.x = curr.x;
+				next.y = curr.y-1;
+			}
 
-	//Push next loc
+			case 1:
+			{
+				next.x = curr.x;
+				next.y = curr.y+1;
+			}
 
-	//if
-	return 0;
+			case 2:
+			{
+				next.x = curr.x-1;
+				next.y = curr.y;
+			}
+
+			case 3:
+			{
+				next.x = curr.x+1;
+				next.y = curr.y;
+			}
+
+			case -1:
+			{
+				point--;
+				return -1;
+			}
+		}
+
+		ret_val = GFS_Recurr(maze, next, end, path, point);
+
+		//Check return value
+		if(ret_val == 1)
+			return 1;
+		else if(ret_val == -1)
+			return -1;
+	}
+	
+	return -1;
 }
 
 
@@ -132,7 +201,8 @@ int GFS_Recurr(char* maze, int x, int y, int x_end, int y_end, int &point)
 int GFS_move(char* maze, coord start, coord end)
 {
 	 int curr_min, direction, curr_dist=0;
-	 curr_min = 999999;
+	 curr_min  = 999999;
+	 direction = -1;
 
 	 //Check heuristic of moving up
 	 curr_dist= MD(start.x, (start.y-1), end.x, end.y);
@@ -174,5 +244,4 @@ int AS(void)
 {
 	return 0;
 }
-
 
