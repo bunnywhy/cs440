@@ -21,10 +21,10 @@ class coord
 int MD(coor curr, coord end);
 
 //coordinate for maze array calc
-int get_cord(int x, int y);
+int get_cord(coord curr);
 
 //Cell status + boundary check
-int check_cell(char* maze, int x, int y);
+int check_cell(char* maze, coord curr);
 
 			//Search method + helper function//
 //---------------------------------------------------------//
