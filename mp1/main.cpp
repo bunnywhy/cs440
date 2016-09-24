@@ -1,6 +1,7 @@
 #include "algorithm.h"
 using namespace std;
 
+
 int xStart, yStart;
 int xEnd[30] = {0};
 int yEnd[30] = {0};
@@ -94,7 +95,10 @@ int main(int argc, char *argv[])
 }
 
 
-void draw_path(char * maze, )
+void draw_path(char * maze)
+{
+
+}
 /* Can we make two global arrays (one for x and one for y) to save the path we figured out
    by the algorithms to print it out?
 */ 
