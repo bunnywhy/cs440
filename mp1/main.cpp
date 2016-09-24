@@ -92,3 +92,9 @@ int main(int argc, char *argv[])
 	printMaze();
 	return 0;
 }
+
+
+void draw_path(char * maze, )
+/* Can we make two global arrays (one for x and one for y) to save the path we figured out
+   by the algorithms to print it out?
+*/ 
