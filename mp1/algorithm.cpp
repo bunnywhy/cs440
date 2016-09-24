@@ -3,7 +3,7 @@
 #define y_max 21
 #define x_min 0
 #define y_min 0
-
+using namespace std;
 				//Commmon Class + functions//
 //---------------------------------------------------------------//
 
@@ -122,20 +122,33 @@ int GFS(char* maze, coord start, coord end)
 	int point=0;
 	coord path[400];
 
-	if(GFS_Recurr(maze, start, end, path, point)==-1)
+	if(GFS_Recurr(maze, start, end, path, point)<=-1)
 		return -1;
 
 	else
 	{
 		for(int i=0 ; i<point ;  i++)
 		{
-			maze[get_cord(path[i])] = '^';
+			maze[get_cord(path[i])] = '-';
 		}
-		return 0;
+		return 1;
 	}
 
 
 	return -1;
+}
+
+void draw_ppath(char * maze)
+{
+	int i = 0;
+	for (i = 0; i < y_max; i++)
+	{
+		for (int j = 0; j < x_max ; j++)
+		{
+			cout << maze[i * x_max + j];
+		}
+		cout << endl;
+	}
 }
 
 int GFS_Recurr(char* maze, coord curr, coord end, coord* path, int &point)
@@ -150,6 +163,8 @@ int GFS_Recurr(char* maze, coord curr, coord end, coord* path, int &point)
 	//Mark current location as  discovered
 	if(check_cell(maze, curr) ==1)
 		maze[get_cord (curr)] = 'X';
+
+	//draw_ppath(maze);
 
 	//Append current location to path
 	path[point] = curr;
@@ -190,13 +205,16 @@ int GFS_Recurr(char* maze, coord curr, coord end, coord* path, int &point)
 
 			case -1:
 			{
-				point--;
+				ret_val = -2;
 				break;
 			}
 
 			default:
 			break;
 		}
+
+		if(ret_val == -2)
+			break;
 
 		ret_val = GFS_Recurr(maze, next, end, path, point);
 
@@ -205,8 +223,11 @@ int GFS_Recurr(char* maze, coord curr, coord end, coord* path, int &point)
 			return 1;
 
 	}
-	if(ret_val == -1)
+	if(ret_val <= -1)
+	{
+		point--;
 		maze[get_cord (curr)] = 'N';
+	}
 	
 	return -1;
 }
@@ -224,7 +245,7 @@ int GFS_move(char* maze, coord start, coord end)
 	 neighbor.x = start.x;
 	 neighbor.y = start.y-1;
 	 curr_dist= MD(neighbor, end);
-	 if( ( curr_dist < curr_min) && check_cell(maze, neighbor) ==1)
+	 if( ( curr_dist < curr_min) && check_cell(maze, neighbor) >=1)
 	 {
 	 		curr_min  = curr_dist;
 	 		direction = 0;
@@ -234,7 +255,7 @@ int GFS_move(char* maze, coord start, coord end)
 	 neighbor.x = start.x;
 	 neighbor.y = start.y+1;
 	 curr_dist= MD(neighbor, end);
-	 if( ( curr_dist < curr_min) &&  check_cell(maze, neighbor) ==1)
+	 if( ( curr_dist < curr_min) &&  check_cell(maze, neighbor) >=1)
 	 {
 	 		curr_min  = curr_dist;
 	 		direction = 1;
@@ -244,7 +265,7 @@ int GFS_move(char* maze, coord start, coord end)
 	 neighbor.x = start.x-1;
 	 neighbor.y = start.y;
 	 curr_dist= MD(neighbor, end);
-	 if( ( curr_dist < curr_min) &&  check_cell(maze, neighbor) ==1)
+	 if( ( curr_dist < curr_min) &&  check_cell(maze, neighbor) >=1)
 	 {
 	 		curr_min  = curr_dist;
 	 		direction = 2;
@@ -254,7 +275,7 @@ int GFS_move(char* maze, coord start, coord end)
 	 neighbor.x = start.x+1;
 	 neighbor.y = start.y;
 	 curr_dist= MD(neighbor, end);
-	 if( ( curr_dist < curr_min) &&  check_cell(maze, neighbor) ==1)
+	 if( ( curr_dist < curr_min) &&  check_cell(maze, neighbor) >=1)
 	 {
 	 		curr_min  = curr_dist;
 	 		direction = 3;
