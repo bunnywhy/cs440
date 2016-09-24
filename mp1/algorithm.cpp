@@ -46,13 +46,13 @@ int check_cell( char* maze, coord curr)
 int BFS(char *maze, coord start, coord end)
 {
 	std::queue<coord> pathq;
-	qx.push(start);
+	pathq.push(start);								// qx -> pathq
 	return BFS_R(maze, end, pathq);
 }
 
 int BFS_R(char *maze,coord end, std::queue<coord> &pathq)
 {
-	path curr;
+	coord curr;										// path -> coord
 
 	curr = pathq.front();
 	pathq.pop();
@@ -63,7 +63,7 @@ int BFS_R(char *maze,coord end, std::queue<coord> &pathq)
 		return 1;
 	}
 
-	else if ( pathq.empty())
+	else if (pathq.empty())
 	{
 		return -1;
 	}
@@ -105,12 +105,69 @@ int BFS_R(char *maze,coord end, std::queue<coord> &pathq)
 }
 
 
-int DFS(void)
+int DFS(char *maze, coord start, coord end)
 {
-
-	return 0;
-
+	std::stack<coord> paths;
+	paths.push(start);
+	return DFS_R(maze, end, paths);
 }
+
+int DFS(char *maze, coord end, std::stack<coord> &paths)
+{
+	coord curr;
+	curr = paths.top();
+	int x = curr.x;
+	int y = curr.y;
+
+	if ((curr.x == end.x) && (curr.y == end.y))							// when it reaches a dot
+		return 1;
+	
+	else if (paths.empty())												// stack is empty
+		return -1;
+
+	else																// always check right neighbor first
+	{		
+		//Modify current loc. status
+		maze[get_cord(curr)] = '.';				
+								
+		if(check_cell(maze, x+1, y) && (x+1 <= x_max))
+		{																// push it					
+			paths.push((x+1, y));
+			return DFS_R(maze, end, paths);
+		}
+	
+		else if( check_cell(maze, x-1, y) && (x-1 >= x_min) )			// check left
+		{
+			paths.push((x-1, y));
+			return DFS_R(maze, end, paths);
+		}
+
+		else if( check_cell(maze, x, y+1) && (y+1 <= y_max) )			// check up
+		{
+			paths.push((x, y+1));
+			return DFS_R(maze, end, paths);
+		}
+
+		else if( check_cell(maze, x, y-1) && (y-1 >= y_min) )			// check down
+		{
+			paths.push((x, y-1));
+			return DFS_R(maze, end, paths);
+		}
+
+		paths.pop();
+	}
+
+		return 0;
+}
+
+/*
+<<<<<<< HEAD
+int check_valid( char* maze, int x, int y)
+{
+	if(maze[get_cord(x,y)] == '.' || maze[get_cord(x,y)] == '%')				// reached a dot or hit a wall
+		return 0;																// invalid
+=======
+*/
 
 int GFS(char* maze, coord start, coord end)
 {
@@ -120,6 +177,7 @@ int GFS(char* maze, coord start, coord end)
 	if(GFS_Recurr(maze, start, end, path, point)==-1 || point ==0);
 		return -1;
 
+>>>>>>> 4dac578fd258dcce1f72da937e1f4db0b24fd360
 	else
 	{
 		for(int i=0 ; i<point ;  point++)
@@ -133,6 +191,9 @@ int GFS(char* maze, coord start, coord end)
 	return -1;
 }
 
+<<<<<<< HEAD
+int GFS(void)
+=======
 int GFS_Recurr(char* maze, coord curr, coord end, coord* path, int &point)
 {
 	int ret_val=0;
@@ -200,6 +261,7 @@ int GFS_Recurr(char* maze, coord curr, coord end, coord* path, int &point)
 
 // 0=up , 1=down , 2=left, 3=right
 int GFS_move(char* maze, coord start, coord end)
+>>>>>>> 4dac578fd258dcce1f72da937e1f4db0b24fd360
 {
 	 int curr_min, direction, curr_dist=0;
 	 curr_min  = 999999;
