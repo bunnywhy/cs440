@@ -6,6 +6,13 @@
 #include <cmath>
 #include <stdio.h>
 #include <map>
+#include <cstdlib>
+class coord
+{
+	public:
+		int x;
+		int y;	
+};
 int DFS(void);
 int GFS(void);
 int AS(void);
