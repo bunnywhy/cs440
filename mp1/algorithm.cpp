@@ -22,6 +22,11 @@ bool coord::operator==(const coord &other) const
  		return false;
  }
 
+bool coord::operator<(const coord &other) const{
+	return ((this->x < other.x) || ((this->x == other.x) && (this->y < other.y)));
+}
+
+
 int get_cord(coord curr)
 {
 	return (curr.x+curr.y*x_max);

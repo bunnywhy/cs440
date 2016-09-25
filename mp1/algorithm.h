@@ -15,7 +15,8 @@ class coord
 	public:
 		int x;
 		int y;	
-		bool operator==(const coord &other) const ;
+		bool operator==(const coord &other) const;
+		bool operator<(const coord &other) const;
 };
 
 //Manhatten distance calc.
