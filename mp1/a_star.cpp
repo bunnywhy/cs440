@@ -3,21 +3,34 @@ using namespace std;
 
 vector<coord> neighbor;
 
-coord min_cost(map<coord, int> *cost){
-	map<coord, int>::iterator it;
+coord min_cost(vector<coord> openSet, map<coord, int> cost){
+	vector<coord>::iterator it;
 	int current_min = 10000;
 	coord current_node;
 	current_node.x = -1;
 	current_node.y = -1;
-	for (it = cost->begin(); it != cost->end(); it++)
+	for (int i = 0; i < openSet.size(); i++)
 	{
-		if (it->second < current_min){
-			current_min = it->second;
-			current_node.x = it->first.x;
-			current_node.y = it->first.y;
+		if (cost[openSet[i]] < current_min){
+			current_min = cost[openSet[i]];
+			current_node.x = openSet[i].x;
+			current_node.y = openSet[i].y;
 		}
 	}
 	return current_node;
+}
+
+void _draw_path(char * maze)
+{
+	int i = 0;
+	for (i = 0; i < 21; i++)
+	{
+		for (int j = 0; j < 41 ; j++)
+		{
+			cout << maze[i * 41 + j];
+		}
+		cout << endl;
+	}
 }
 
 void find_neighbor(char* maze, coord current){
@@ -33,19 +46,18 @@ void find_neighbor(char* maze, coord current){
 	coord down;
 	down.x = current.x;
 	down.y = current.y + 1;
-	cout << "check cell return" << check_cell(maze, up) << endl;
-	if (check_cell(maze, left)>=1){
+	if (check_cell(maze, left) >= 1){
 		neighbor.push_back(left);
 	}
-	if (check_cell(maze, right)>=1)
+	if (check_cell(maze, right) >= 1)
 	{
 		neighbor.push_back(right);
 	}
-	if (check_cell(maze, up)>=1)
+	if (check_cell(maze, up) >= 1)
 	{
 		neighbor.push_back(up);
 	}
-	if (check_cell(maze, down)>=1)
+	if (check_cell(maze, down) >= 1)
 	{
 		neighbor.push_back(down);
 	}
@@ -65,9 +77,9 @@ int a_star(char *maze, coord start, coord end){
 	totalCost[start] = MD(start, end);
 
 	while (!openSet.empty()){
-		current = min_cost(&totalCost);
-		cout << "current.x" << current.x << endl;
-		cout << "current.y" << current.y << endl;
+		current = min_cost(openSet, totalCost);
+		cout << "current.x:" << current.x << ' ' << "current.y" << current.y << endl;
+		cout << "current cost:" << totalCost[current] << endl;
 		if ((current.x == end.x) && (current.y == end.y)){
 			return 1;
 		}
@@ -78,12 +90,12 @@ int a_star(char *maze, coord start, coord end){
 		for (int i = 0; i < neighbor.size(); i++)
 		{
 			cout << "neighbor" << neighbor[i].x << ' ' << neighbor[i].y << endl;
-			if (find(closedSet.begin(), closedSet.end(), neighbor[i]) == closedSet.end()){
+			if (find(closedSet.begin(), closedSet.end(), neighbor[i]) != closedSet.end()){
 				continue;
 			}
 			pathCost[neighbor[i]] = 10000;
 			curPathcost = pathCost[current] + 1;
-			if (find(openSet.begin(), openSet.end(), neighbor[i]) != openSet.end())
+			if (find(openSet.begin(), openSet.end(), neighbor[i]) == openSet.end())
 			{
 				openSet.push_back(neighbor[i]);
 			}
@@ -94,12 +106,14 @@ int a_star(char *maze, coord start, coord end){
 			cameFrom[neighbor[i]] = current;
 			pathCost[neighbor[i]] = curPathcost;
 			totalCost[neighbor[i]] = pathCost[neighbor[i]] + MD(neighbor[i], end);
-			vector<coord> result = totalPath(cameFrom, current);
-			for (vector<coord>::iterator it = result.begin(); it != result.end(); it++)
-			{
-		 		maze[it->y * 41 + it->x] = '.';
-			}
+			cout << "neighbor totalCost:" << totalCost[neighbor[i]] << endl;
 		}
+		vector<coord> result = totalPath(cameFrom, current);
+		for (vector<coord>::iterator it = result.begin(); it != result.end(); it++)
+		{
+		 	maze[it->y * 41 + it->x] = '.';
+		}
+		_draw_path(maze);
 	}
 	return 0;
 }

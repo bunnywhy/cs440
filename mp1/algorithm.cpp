@@ -1,5 +1,5 @@
 #include "algorithm.h"
-#define x_max 42
+#define x_max 41
 #define y_max 21
 #define x_min 0
 #define y_min 0
