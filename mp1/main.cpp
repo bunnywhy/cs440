@@ -1,5 +1,6 @@
 #include "algorithm.h"
 #include "a_star.h"
+
 using namespace std;
 
 FILE *in;
@@ -63,6 +64,13 @@ void printMaze(char* argv)
 	cout << "end:(" << endpoint[0].x << ", " << endpoint[0].y << ")" << endl;
 	a_star(maze, start, endpoint[0]);
 	draw_path(maze);
+	if( GFS(maze,start, endpoint[0], row, column) ==1)
+		draw_path(maze);
+	else
+	{
+		cout<<"failed"<<endl;
+		draw_path(maze);
+	}
 	delete [] maze;
 
 }
@@ -119,4 +127,9 @@ int main(int argc, char *argv[])
 	printMaze(argv[1]);
 	return 0;
 }
+
+
+/* Can we make two global arrays (one for x and one for y) to save the path we figured out
+   by the algorithms to print it out?
+*/ 
 

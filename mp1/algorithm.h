@@ -9,14 +9,13 @@
 
 				//Commmon Class + functions//
 //----------------------------------------------------------//
-
 class coord
 {
 	public:
-	int x;
-	int y;	
-	bool operator==(const coord &other) const;
-	bool operator<(const coord &other) const;
+		int x;
+		int y;	
+		bool operator==(const coord &other) const;
+		bool operator<(const coord &other) const;
 };
 
 //Manhatten distance calc.
@@ -32,18 +31,18 @@ int check_cell(char* maze, coord curr);
 //---------------------------------------------------------//
 
 //A* Search
-// int AS(void);
+int AS(void);
 
-// //Bread first search
-// int BFS(char *maze, int x_start, int y_start, int* x_end, int* y_end);
-// int BFS_R(char *maze, int* x_end, int* y_end, std::queue<int> &qx, std::queue<int> &qy);
+//Bread first search
+int BFS(char *maze, coord start, coord end);
+int BFS_R(char *maze,coord end, std::queue<coord> &pathq);
 
-// //Depth first search
-// int DFS(void);
+//Depth first search
+int DFS(void);
 
-// //Greedy first search
-// int GFS(void);
-// int GFS_move(char* maze, coord start, coord end);
-// int GFS_Recurr(char* maze, coord curr, coord end, coord* path, int &point);
+//Greedy first search
+int GFS(char* maze, coord start, coord end, int row, int column);
+int GFS_move(char* maze, coord start, coord end);
+int GFS_Recurr(char* maze, coord curr, coord end, coord* path, int &point);
 
 #endif
