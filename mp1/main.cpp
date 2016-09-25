@@ -60,7 +60,7 @@ void printMaze(char* argv)
 	}
 	cout<<"start:("<<start.x<< ", "<<start.y<<")"<<endl;
 	cout<<"end:("<<endpoint[0].x<< ", "<<endpoint[0].y<<")"<<endl;
-	if( GFS(maze,start, endpoint[0]) ==1)
+	if( GFS(maze,start, endpoint[0], row, column) ==1)
 		draw_path(maze);
 	else
 	{
