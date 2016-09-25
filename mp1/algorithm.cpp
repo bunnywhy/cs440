@@ -74,20 +74,25 @@ int BFS(char *maze, coord start, coord end, int row, int column)
 	// check if we have sucessfully find a path to goal
 	if(BFS_R(maze, end, frontier, parent) == 1)			 // qx -> frontier
 	{
+		//While we have not reached the start point, keep drawing path
 		curr = parent[get_cord(end)];
 		while(curr.x != -1)
 		{
 			if(maze[get_cord(curr)] != 'P')
 				maze[get_cord(curr)] = '-';
-			
+
 			curr = parent[get_cord(curr)];
 		}
-		return  1;
+
+		//Free memory and return
 		delete[] parent;
+		return  1;	
 	}
 
+	//We have not find a path, return error
 	else
 	{
+		//Free memory and return
 		delete[] parent;
 		return -1;
 	}
@@ -161,59 +166,114 @@ int BFS_R(char *maze, coord end, std::queue<coord> &frontier, coord *parent)
 
                                                //BFS//
 //------------------------------------------------------------------------------------------------------------//
-int DFS(char *maze, coord start, coord end)
+int DFS(char *maze, coord start, coord end, int row, int column)
 {
-	std::stack<coord> paths;
-	paths.push(start);
-	return DFS_R(maze, end, paths);
+	//Asign boarder parameter
+	x_max = column;
+	y_max = row;
+
+	coord curr;
+	std::stack<coord> frontier;
+	coord *parent = new coord[y_max*x_max];
+	
+
+
+
+	//Push start point and mark it as a root node
+	parent[get_cord(start)].x=-1;
+	parent[get_cord(start)].y=-1;
+	frontier.push(start);
+
+	// check if we have sucessfully find a path to goal
+	if(DFS_R(maze, end, frontier, parent) == 1)
+	{
+		//While we have not reached the start point, keep drawing path
+		curr = parent[get_cord(end)];
+		while(curr.x != -1)
+		{
+			if(maze[get_cord(curr)] != 'P')
+				maze[get_cord(curr)] = '-';
+
+			curr = parent[get_cord(curr)];
+		}
+
+		//Free memory and return
+		delete[] parent;
+		return  1;	
+	}
+
+	//We have not find a path, return error
+	else
+	{
+		//Free memory and return
+		delete[] parent;
+		return -1;
+	}
 }
 
-int DFS_R(char *maze, coord end, std::stack<coord> &paths)
+int DFS_R(char *maze, coord end, std::stack<coord> &frontier, coord *parent)
 {
-	/*coord curr;
-	curr = paths.top();
-	int x = curr.x;
-	int y = curr.y;
+	coord curr,neighbor;
 
-	if ((curr.x == end.x) && (curr.y == end.y))							// when it reaches a dot
-		return 1;
-	
-	else if (paths.empty())												// stack is empty
+	if (frontier.empty())
+	{
 		return -1;
+	}
 
-	else																// always check right neighbor first
-	{		
-		//Modify current loc. status
-		maze[get_cord(curr)] = '.';				
-								
-		if(check_cell(maze, x+1, y) && (x+1 <= x_max))
-		{																// push it					
-			paths.push((x+1, y));
-			return DFS_R(maze, end, paths);
-		}
-	
-		else if( check_cell(maze, x-1, y) && (x-1 >= x_min) )			// check left
+	curr = frontier.top();
+	frontier.pop();
+
+	if (curr == end)
+	{
+		return 1;
+	}
+
+	else
+	{
+		if(maze[get_cord(curr)] != 'P')
+			maze[get_cord(curr)] = 'X';
+
+		//draw_ppath(maze);
+
+		//Check moving up
+		neighbor.x = curr.x;
+		neighbor.y = curr.y-1;
+		if( check_cell(maze, neighbor) >=1)
 		{
-			paths.push((x-1, y));
-			return DFS_R(maze, end, paths);
+			frontier.push(neighbor);
+		 	parent[get_cord(neighbor)] = curr;
 		}
 
-		else if( check_cell(maze, x, y+1) && (y+1 <= y_max) )			// check up
+		//Check moving down
+		neighbor.x = curr.x;
+		neighbor.y = curr.y+1;
+		if(check_cell(maze, neighbor) >=1)
 		{
-			paths.push((x, y+1));
-			return DFS_R(maze, end, paths);
+		 	frontier.push(neighbor);
+		 	parent[get_cord(neighbor)] = curr;
 		}
 
-		else if( check_cell(maze, x, y-1) && (y-1 >= y_min) )			// check down
+		//Check moving left
+		neighbor.x = curr.x-1;
+		neighbor.y = curr.y;
+		if( check_cell(maze, neighbor) >=1)
 		{
-			paths.push((x, y-1));
-			return DFS_R(maze, end, paths);
+		 	frontier.push(neighbor);
+		 	parent[get_cord(neighbor)] = curr;
 		}
 
-		paths.pop();
-	}*/
+		//Check moving right
+		neighbor.x = curr.x+1;
+		neighbor.y = curr.y;
+		if(check_cell(maze, neighbor) >=1)
+		{
+		 	frontier.push(neighbor);
+		 	parent[get_cord(neighbor)] = curr;
+		}
 
-		return 0;
+		return DFS_R(maze, end, frontier, parent);
+	}
+	return 0;
 }
 
                                                //GFS//

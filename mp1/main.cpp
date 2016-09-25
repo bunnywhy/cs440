@@ -40,7 +40,7 @@ void printMaze(char* argv)
 		}
 	}while(c != EOF);
 	fclose(in);
-	cout << column << " " << row << endl;
+	cout <<"x-max: " << column << " | y-max: " << row << endl;
 	for (i = 0; i < row; i++)
 	{
 		for (int j = 0; j < column ; j++)
@@ -59,15 +59,19 @@ void printMaze(char* argv)
 		}
 		cout << endl;
 	}
-	cout<<"start:("<<start.x<< ", "<<start.y<<")"<<endl;
-	cout<<"end:("<<endpoint[0].x<< ", "<<endpoint[0].y<<")"<<endl;
-	if( BFS(maze, start, endpoint[0], row, column) ==1)
-		draw_path(maze);
+
+	//Print Start and End point
+	cout<<"start: ("<<start.x<< ","<<start.y<<")"<<endl;
+	cout<<"end: ("<<endpoint[0].x<< ","<<endpoint[0].y<<")"<<endl;
+
+	//Check if we have suceffully got a path
+	if( DFS(maze, start, endpoint[0], row, column) ==1)
+		cout<<"Sucess!"<<endl;
+
 	else
-	{
-		cout<<"failed"<<endl;
+		cout<<"Failed!"<<endl;
+
 		draw_path(maze);
-	}
 	
 	delete [] maze;
 
@@ -81,7 +85,7 @@ int main(int argc, char *argv[])
 	char test[15] = "mediumMaze.txt";
 	if (argc != 2)
 	{
-		cout << "need 2 arguements" << endl;
+		cout << "need 2 arguements, run with default map 'mediumMaze.txt'" << endl;
 		in = fopen(test, "r");
 		//return -1;
 	}

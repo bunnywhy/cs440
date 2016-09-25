@@ -42,8 +42,8 @@ int BFS(char *maze, coord start, coord end, int row, int column);
 int BFS_R(char *maze, coord end, std::queue<coord> &frontier, coord*parent);
 
 //Depth first search
-int DFS(char *maze, coord start, coord end);
-int DFS_R(char *maze, coord end, std::stack<coord> &paths);
+int DFS(char *maze, coord start, coord end, int row, int column);
+int DFS_R(char *maze, coord end, std::stack<coord> &frontier, coord *parent);
 
 //Greedy first search
 int GFS(char* maze, coord start, coord end, int row, int column);
