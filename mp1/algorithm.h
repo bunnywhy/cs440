@@ -6,6 +6,7 @@
 #include <cmath>
 #include <stdio.h>
 #include <cstdlib>
+#include <stack>
 
 				//Commmon Class + functions//
 //----------------------------------------------------------//
@@ -37,7 +38,8 @@ int BFS(char *maze, coord start, coord end);
 int BFS_R(char *maze,coord end, std::queue<coord> &pathq);
 
 //Depth first search
-int DFS(void);
+int DFS(char *maze, coord start, coord end);
+int DFS_R(char *maze, coord end, std::stack<coord> &paths);
 
 //Greedy first search
 int GFS(char* maze, coord start, coord end, int row, int column);

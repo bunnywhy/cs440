@@ -8,7 +8,7 @@ using namespace std;
 				//Commmon Class + functions//
 //---------------------------------------------------------------//
 
-int MD(coor curr, coord end)
+int MD(coord curr, coord end)
 {
 	return abs(curr.x - end.x) + abs(curr.y - end.y);
 }
@@ -53,7 +53,7 @@ int BFS(char *maze, coord start, coord end)
 
 int BFS_R(char *maze,coord end, std::queue<coord> &pathq)
 {
-	coord curr;										// path -> coord
+	/*coord curr;										// path -> coord
 
 	curr = pathq.front();
 	pathq.pop();
@@ -101,7 +101,8 @@ int BFS_R(char *maze,coord end, std::queue<coord> &pathq)
 		}
 
 		return BFS_R(maze, x_end, y_end, qx, qy);
-	}
+	}*/
+	return 0;
 
 }
 
@@ -113,9 +114,9 @@ int DFS(char *maze, coord start, coord end)
 	return DFS_R(maze, end, paths);
 }
 
-int DFS(char *maze, coord end, std::stack<coord> &paths)
+int DFS_R(char *maze, coord end, std::stack<coord> &paths)
 {
-	coord curr;
+	/*coord curr;
 	curr = paths.top();
 	int x = curr.x;
 	int y = curr.y;
@@ -156,7 +157,7 @@ int DFS(char *maze, coord end, std::stack<coord> &paths)
 		}
 
 		paths.pop();
-	}
+	}*/
 
 		return 0;
 }
@@ -165,16 +166,6 @@ int AS(void)
 {
 	return 0;
 }
-
-
-bool coord::operator==(const coord &other) const 
- {
- 	if( other.x == this->x && other.y == this->y)
- 		return true;
-
- 	else
- 		return false;
- }
 
 
 int GFS(char* maze, coord start, coord end, int row, int column)
