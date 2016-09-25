@@ -1,13 +1,14 @@
 #include "algorithm.h"
+using namespace std;
 #define x_min 0
 #define y_min 0
 int x_max=0;
 int y_max=0;
-using namespace std;
+
+
 
                                     //Commmon Class + functions//
 //---------------------------------------------------------------------------------------------------------//
-
 int MD(coord curr, coord end)
 {
 	return abs(curr.x - end.x) + abs(curr.y - end.y);
@@ -50,9 +51,9 @@ int check_cell( char* maze, coord curr)
 	else
 		return 1;
 }
+
                                                //BFS//
 //------------------------------------------------------------------------------------------------------------//
-
 int BFS(char *maze, coord start, coord end, int row, int column)
 {
 	//Asign boarder parameter
@@ -72,7 +73,7 @@ int BFS(char *maze, coord start, coord end, int row, int column)
 	frontier.push(start);
 
 	// check if we have sucessfully find a path to goal
-	if(BFS_R(maze, end, frontier, parent) == 1)			 // qx -> frontier
+	if(BFS_R(maze, end, frontier, parent) == 1)
 	{
 		//While we have not reached the start point, keep drawing path
 		curr = parent[get_cord(end)];
@@ -100,7 +101,7 @@ int BFS(char *maze, coord start, coord end, int row, int column)
 
 int BFS_R(char *maze, coord end, std::queue<coord> &frontier, coord *parent)
 {
-	coord curr,neighbor;								// path -> coord
+	coord curr,neighbor;				
 
 	if (frontier.empty())
 	{
@@ -164,7 +165,7 @@ int BFS_R(char *maze, coord end, std::queue<coord> &frontier, coord *parent)
 
 }
 
-                                               //BFS//
+                                               //DFS//
 //------------------------------------------------------------------------------------------------------------//
 int DFS(char *maze, coord start, coord end, int row, int column)
 {
@@ -275,6 +276,7 @@ int DFS_R(char *maze, coord end, std::stack<coord> &frontier, coord *parent)
 	}
 	return 0;
 }
+
 
                                                //GFS//
 //------------------------------------------------------------------------------------------------------------//
