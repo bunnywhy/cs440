@@ -1,6 +1,5 @@
 #include "a_star.h"
 using namespace std;
-
 vector<coord> neighbor;
 
 coord min_cost(vector<coord> openSet, map<coord, int> cost){
@@ -23,11 +22,11 @@ coord min_cost(vector<coord> openSet, map<coord, int> cost){
 void _draw_path(char * maze)
 {
 	int i = 0;
-	for (i = 0; i < 21; i++)
+	for (i = 0; i < row; i++)
 	{
-		for (int j = 0; j < 41 ; j++)
+		for (int j = 0; j < column; j++)
 		{
-			cout << maze[i * 41 + j];
+			cout << maze[i * column + j];
 		}
 		cout << endl;
 	}
@@ -78,9 +77,18 @@ int a_star(char *maze, coord start, coord end){
 
 	while (!openSet.empty()){
 		current = min_cost(openSet, totalCost);
-		cout << "current.x:" << current.x << ' ' << "current.y" << current.y << endl;
-		cout << "current cost:" << totalCost[current] << endl;
+		//cout << "current.x:" << current.x << ' ' << "current.y" << current.y << endl;
+		//cout << "current cost:" << totalCost[current] << endl;
 		if ((current.x == end.x) && (current.y == end.y)){
+			vector<coord> result = totalPath(cameFrom, current);
+			for (vector<coord>::iterator it = result.begin(); it != result.end(); it++)
+			{
+		 		if ((it->x == start.x) && (it->y == start.y))
+		 		{
+		 			continue;
+		 		}
+		 		maze[it->y * column + it->x] = '.';
+			}
 			return 1;
 		}
 		openSet.erase(remove(openSet.begin(),openSet.end(), current), openSet.end());
@@ -89,7 +97,7 @@ int a_star(char *maze, coord start, coord end){
 		find_neighbor(maze, current);
 		for (int i = 0; i < neighbor.size(); i++)
 		{
-			cout << "neighbor" << neighbor[i].x << ' ' << neighbor[i].y << endl;
+			//cout << "neighbor" << neighbor[i].x << ' ' << neighbor[i].y << endl;
 			if (find(closedSet.begin(), closedSet.end(), neighbor[i]) != closedSet.end()){
 				continue;
 			}
@@ -106,14 +114,8 @@ int a_star(char *maze, coord start, coord end){
 			cameFrom[neighbor[i]] = current;
 			pathCost[neighbor[i]] = curPathcost;
 			totalCost[neighbor[i]] = pathCost[neighbor[i]] + MD(neighbor[i], end);
-			cout << "neighbor totalCost:" << totalCost[neighbor[i]] << endl;
+			//cout << "neighbor totalCost:" << totalCost[neighbor[i]] << endl;
 		}
-		vector<coord> result = totalPath(cameFrom, current);
-		for (vector<coord>::iterator it = result.begin(); it != result.end(); it++)
-		{
-		 	maze[it->y * 41 + it->x] = '.';
-		}
-		_draw_path(maze);
 	}
 	return 0;
 }

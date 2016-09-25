@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <cstdlib>
 #include <stack>
-
+extern int x_max, y_max;
 				//Commmon Class + functions//
 //----------------------------------------------------------//
 class coord
@@ -38,15 +38,15 @@ void draw_ppath(char * maze);
 int AS(void);
 
 //Bread first search
-int BFS(char *maze, coord start, coord end, int row, int column);
+int BFS(char *maze, coord start, coord end);
 int BFS_R(char *maze, coord end, std::queue<coord> &frontier, coord*parent);
 
 //Depth first search
-int DFS(char *maze, coord start, coord end, int row, int column);
+int DFS(char *maze, coord start, coord end);
 int DFS_R(char *maze, coord end, std::stack<coord> &frontier, coord *parent);
 
 //Greedy first search
-int GFS(char* maze, coord start, coord end, int row, int column);
+int GFS(char* maze, coord start, coord end);
 int GFS_move(char* maze, coord start, coord end);
 int GFS_Recurr(char* maze, coord curr, coord end, coord* path, int &point);
 

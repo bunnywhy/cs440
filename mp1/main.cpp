@@ -8,7 +8,8 @@ FILE *in;
 coord start;
 coord endpoint[30];
 int row, column =0;
-
+int x_max=0;
+int y_max=0;
 
 //--------------------------------Draw Path----------------------------------------//
 void draw_path(char * maze)
@@ -31,6 +32,7 @@ void printMaze(char* argv)
 	char c=0;
 	int i = 0;
 	int dot_counter = 0;
+	int input;
 	in = fopen(argv, "r");
 	
 	//char *maze = new char [column*row];
@@ -46,7 +48,7 @@ void printMaze(char* argv)
 		}
 	}while(c != EOF);
 	fclose(in);
-	cout <<"x-max: " << column << " | y-max: " << row << endl;
+	cout << "x-max: " << column << " | y-max: " << row << endl;
 	for (i = 0; i < row; i++)
 	{
 		for (int j = 0; j < column ; j++)
@@ -67,18 +69,65 @@ void printMaze(char* argv)
 	}
 
 	//Print Start and End point
-	cout<<"start: ("<<start.x<< ","<<start.y<<")"<<endl;
-	cout<<"end: ("<<endpoint[0].x<< ","<<endpoint[0].y<<")"<<endl;
+	cout << "start: (" << start.x << "," <<start.y << ")" <<endl;
+	cout << "end: (" << endpoint[0].x << "," << endpoint[0].y << ")" <<endl;
 
+	cout << "select an algorithm from the list:" << endl;
+	cout << "1. BFS" << endl;
+	cout << "2. DFS" << endl;
+	cout << "3. Greedy" << endl;
+	cout << "4. A* (choose me)" << endl;
+	cin >> input;
+
+	if (input == 1)
+	{
+		if(BFS(maze, start, endpoint[0]) == 1){
+			cout << "Sucess!" << endl;
+			draw_path(maze);
+		}
+		else
+			cout << "Failed!" << endl;
+	}
 	//Check if we have suceffully got a path
-	if( BFS(maze, start, endpoint[0], row, column) ==1)
-		cout<<"Sucess!"<<endl;
-
+	else if (input == 2)
+	{
+		if(DFS(maze, start, endpoint[0]) == 1){
+			cout << "Sucess!" << endl;
+			draw_path(maze);
+		}
+		else
+		{
+			cout << "Failed!" << endl;
+		}
+	}
+	else if (input == 3)
+	{
+		if(GFS(maze, start, endpoint[0]) == 1){
+			cout << "Sucess!" << endl;
+			draw_path(maze);
+		}
+		else
+		{
+			cout << "Failed!" << endl;
+		}
+	}
+	else if (input == 4)
+	{
+		if (a_star(maze, start, endpoint[0]) == 1)
+		{
+			cout << "Sucess!" << endl;
+			draw_path(maze);
+		}
+		else
+		{
+			cout << "Shame!" << endl;
+			draw_path(maze);
+		}
+	}
 	else
-		cout<<"Failed!"<<endl;
-
-		draw_path(maze);
-	
+	{
+		cout << "Please enter a number between 1-4" << endl;
+	}
 	delete [] maze;
 
 }
@@ -138,7 +187,8 @@ int main(int argc, char *argv[])
 
 	//Aquired collumns and rows, close the current file
 	fclose(in);
-
+	x_max = column;
+	y_max = row;
 	//Start execute print maze, which also does search algo.
 	if (argc != 2)
 		printMaze(dfault);

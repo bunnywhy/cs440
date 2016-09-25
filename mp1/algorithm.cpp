@@ -2,8 +2,6 @@
 using namespace std;
 #define x_min 0
 #define y_min 0
-int x_max=0;
-int y_max=0;
 
 
 
@@ -30,17 +28,17 @@ bool coord::operator<(const coord &other) const{
 
 int get_cord(coord curr)
 {
-	return (curr.x+curr.y*x_max);
+	return (curr.x + curr.y * x_max);
 }
 
-int check_cell( char* maze, coord curr)
+int check_cell(char* maze, coord curr)
 {
 	//Boundary Check
-	if( curr.x>= x_max || curr.x<= x_min || curr.y>= y_max || curr.y<= y_min)
+	if( curr.x >= x_max || curr.x <= x_min || curr.y >= y_max || curr.y <= y_min)
 		return 0;
 
 	//Location content test
-	if(maze[get_cord(curr)] == '%' || maze[get_cord(curr)] == 'X' || maze[get_cord(curr)] == 'N'|| maze[get_cord(curr)] == 'P')
+	if(maze[get_cord(curr)] == '%' || maze[get_cord(curr)] == 'X' || maze[get_cord(curr)] == 'N' || maze[get_cord(curr)] == 'P')
 		return 0;
 
 	//Goal Test
@@ -54,11 +52,9 @@ int check_cell( char* maze, coord curr)
 
                                                //BFS//
 //------------------------------------------------------------------------------------------------------------//
-int BFS(char *maze, coord start, coord end, int row, int column)
+int BFS(char *maze, coord start, coord end)
 {
 	//Asign boarder parameter
-	x_max = column;
-	y_max = row;
 
 	coord curr;
 	std::queue<coord> frontier;
@@ -80,7 +76,7 @@ int BFS(char *maze, coord start, coord end, int row, int column)
 		while(curr.x != -1)
 		{
 			if(maze[get_cord(curr)] != 'P')
-				maze[get_cord(curr)] = '-';
+				maze[get_cord(curr)] = '.';
 
 			curr = parent[get_cord(curr)];
 		}
@@ -167,11 +163,9 @@ int BFS_R(char *maze, coord end, std::queue<coord> &frontier, coord *parent)
 
                                                //DFS//
 //------------------------------------------------------------------------------------------------------------//
-int DFS(char *maze, coord start, coord end, int row, int column)
+int DFS(char *maze, coord start, coord end)
 {
 	//Asign boarder parameter
-	x_max = column;
-	y_max = row;
 
 	coord curr;
 	std::stack<coord> frontier;
@@ -193,7 +187,7 @@ int DFS(char *maze, coord start, coord end, int row, int column)
 		while(curr.x != -1)
 		{
 			if(maze[get_cord(curr)] != 'P')
-				maze[get_cord(curr)] = '-';
+				maze[get_cord(curr)] = '.';
 
 			curr = parent[get_cord(curr)];
 		}
@@ -280,13 +274,11 @@ int DFS_R(char *maze, coord end, std::stack<coord> &frontier, coord *parent)
 
                                                //GFS//
 //------------------------------------------------------------------------------------------------------------//
-int GFS(char* maze, coord start, coord end, int row, int column)
+int GFS(char* maze, coord start, coord end)
 {
 	int point=0;
 	coord path[400];
 
-	x_max = column;
-	y_max = row;
 	if(GFS_Recurr(maze, start, end, path, point)<=-1)
 		return -1;
 
@@ -294,7 +286,7 @@ int GFS(char* maze, coord start, coord end, int row, int column)
 	{
 		for(int i=0 ; i<point ;  i++)
 		{
-			maze[get_cord(path[i])] = '-';
+			maze[get_cord(path[i])] = '.';
 		}
 		return 1;
 	}
@@ -391,7 +383,7 @@ int GFS_Recurr(char* maze, coord curr, coord end, coord* path, int &point)
 	if(ret_val <= -1)
 	{
 		point--;
-		maze[get_cord (curr)] = 'N';
+		maze[get_cord (curr)] = 'X';
 	}
 	
 	return -1;

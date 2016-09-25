@@ -3,6 +3,7 @@
 #include <map>
 #include <algorithm>
 #include "algorithm.h"
+extern int column, row;
 using namespace std;
 coord min_cost(vector<coord> openSet, map<coord, int> cost);
 void erase(vector<coord> *coord_vec, coord to_be_erased);
