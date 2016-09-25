@@ -55,12 +55,17 @@ int check_cell( char* maze, coord curr)
 
 int BFS(char *maze, coord start, coord end, int row, int column)
 {
-	std::queue<coord> frontier;
-	coord parent[y_max*x_max];
-	coord curr;
-
+	//Asign boarder parameter
 	x_max = column;
 	y_max = row;
+
+	coord curr;
+	std::queue<coord> frontier;
+	coord *parent = new coord[y_max*x_max];
+	
+
+
+
 	//Push start point and mark it as a root node
 	parent[get_cord(start)].x=-1;
 	parent[get_cord(start)].y=-1;
@@ -76,33 +81,37 @@ int BFS(char *maze, coord start, coord end, int row, int column)
 			curr = parent[get_cord(curr)];
 		}
 		return  1;
+		delete[] parent;
 	}
 
 	else
+	{
+		delete[] parent;
 		return -1;
+	}
 }
 
 int BFS_R(char *maze, coord end, std::queue<coord> &frontier, coord *parent)
 {
 	coord curr,neighbor;								// path -> coord
+
+	if (frontier.empty())
+	{
+		return -1;
+	}
+
 	curr = frontier.front();
 	frontier.pop();
-
 
 	if (curr == end)
 	{
 		return 1;
 	}
 
-	else if (frontier.empty())
-	{
-		return -1;
-	}
-
 	else
 	{
 		maze[get_cord(curr)] = 'X';
-		draw_ppath(maze);
+		//draw_ppath(maze);
 		 //Check moving up
 		 neighbor.x = curr.x;
 		 neighbor.y = curr.y-1;

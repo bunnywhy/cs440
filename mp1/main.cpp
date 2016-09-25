@@ -1,4 +1,5 @@
 #include "algorithm.h"
+#include "a_star.h"
 using namespace std;
 
 FILE *in;
