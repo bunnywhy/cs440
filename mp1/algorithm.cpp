@@ -1,8 +1,8 @@
 #include "algorithm.h"
-#define x_max 41
-#define y_max 21
 #define x_min 0
 #define y_min 0
+int x_max=0;
+int y_max=0;
 using namespace std;
 				//Commmon Class + functions//
 //---------------------------------------------------------------//
@@ -57,7 +57,7 @@ int BFS(char *maze, coord start, coord end)
 
 int BFS_R(char *maze,coord end, std::queue<coord> &pathq)
 {
-	/*path curr;
+	path curr;
 
 	curr = pathq.front();
 	pathq.pop();
@@ -105,7 +105,7 @@ int BFS_R(char *maze,coord end, std::queue<coord> &pathq)
 		}
 
 		return BFS_R(maze, x_end, y_end, qx, qy);
-	}*/
+	}
 	return 1;
 }
 
@@ -117,11 +117,13 @@ int DFS(void)
 
 }
 
-int GFS(char* maze, coord start, coord end)
+int GFS(char* maze, coord start, coord end, int row, int column)
 {
 	int point=0;
 	coord path[400];
 
+	x_max = column;
+	y_max = row;
 	if(GFS_Recurr(maze, start, end, path, point)<=-1)
 		return -1;
 

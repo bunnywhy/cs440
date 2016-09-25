@@ -40,7 +40,7 @@ int BFS_R(char *maze,coord end, std::queue<coord> &pathq);
 int DFS(void);
 
 //Greedy first search
-int GFS(char* maze, coord start, coord end);
+int GFS(char* maze, coord start, coord end, int row, int column);
 int GFS_move(char* maze, coord start, coord end);
 int GFS_Recurr(char* maze, coord curr, coord end, coord* path, int &point);
 
