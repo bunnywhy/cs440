@@ -67,7 +67,7 @@ void printMaze(char* argv)
 		}
 		cout << endl;
 	}
-	conversion(endpoint);
+	vector<coord> end = conversion(endpoint);
 	//Print Start and End point
 	cout << "start: (" << start.x << "," <<start.y << ")" <<endl;
 	cout << "end: (" << endpoint[0].x << "," << endpoint[0].y << ")" <<endl;
@@ -113,7 +113,7 @@ void printMaze(char* argv)
 	}
 	else if (input == 4)
 	{
-		if (a_star(maze, start, endpoint[0]) == 1)
+		if (_a_star(maze, start, end) == 1)
 		{
 			cout << "Sucess!" << endl;
 			draw_path(maze);

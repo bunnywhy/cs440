@@ -8,7 +8,7 @@ vector<coord> closedSet;
 map<coord, coord> cameFrom;
 map<coord, int> pathCost;
 
- int optimal_cost(coord cur, coord end){
+int optimal_cost(coord cur, coord end){
 	int euc_val = floor(sqrt(pow((cur.x - end.x), 2) + pow((cur.y - end.y), 2)));	
 	int md_val = MD(cur, end);
 	return max(euc_val, md_val);
@@ -148,8 +148,8 @@ int _a_star(char *maze, coord start, vector<coord> endset){
 	
 	openSet.push_back(start);
 	pathCost[start] = 0;
-	totalCost[start] = optimal_cost(start, end);
-	_a_star_test(maze, start, endset);
+	totalCost[start] = optimal_cost(start, endset[0]);
+	return _a_star_test(maze, start, endset);
 }
 
 int _a_star_test(char *maze, coord start, vector<coord> endset)
@@ -161,7 +161,7 @@ int _a_star_test(char *maze, coord start, vector<coord> endset)
 	//While frontier is not empty
 	while (!openSet.empty())
 	{
-		if(prev_end != end)
+		if(!(prev_end == end))
 		{
 			//update all total_cost
 			update_all_total_cost(end, openSet);
@@ -197,7 +197,7 @@ int _a_star_test(char *maze, coord start, vector<coord> endset)
 
 			else
 			{
-				multi_update(coord curr, vector<coord> endset, map<coord, int> cost_to_end);
+				multi_update(current, endset);
 				end = min_cost(endset, cost_to_end);				
 			}
 		}
@@ -250,7 +250,7 @@ int _a_star_test(char *maze, coord start, vector<coord> endset)
 			totalCost[neighbor[i]] = pathCost[neighbor[i]] + optimal_cost(neighbor[i], end);
 			//cout << "neighbor totalCost:" << totalCost[neighbor[i]] << endl;
 		}
-		multi_update(coord curr, vector<coord> endset, map<coord, int> cost_to_end);
+		multi_update(current, endset);
 		end = min_cost(endset, cost_to_end);
 	}
 	return 0;
