@@ -39,7 +39,7 @@ int check_cell( char* maze, coord curr)
 		return 0;
 
 	//Location content test
-	if(maze[get_cord(curr)] == '%' || maze[get_cord(curr)] == 'X' || maze[get_cord(curr)] == 'N')
+	if(maze[get_cord(curr)] == '%' || maze[get_cord(curr)] == 'X' || maze[get_cord(curr)] == 'N'|| maze[get_cord(curr)] == 'P')
 		return 0;
 
 	//Goal Test
@@ -77,7 +77,9 @@ int BFS(char *maze, coord start, coord end, int row, int column)
 		curr = parent[get_cord(end)];
 		while(curr.x != -1)
 		{
-			maze[get_cord(curr)] = '-';
+			if(maze[get_cord(curr)] != 'P')
+				maze[get_cord(curr)] = '-';
+			
 			curr = parent[get_cord(curr)];
 		}
 		return  1;
@@ -110,43 +112,46 @@ int BFS_R(char *maze, coord end, std::queue<coord> &frontier, coord *parent)
 
 	else
 	{
-		maze[get_cord(curr)] = 'X';
+		if(maze[get_cord(curr)] != 'P')
+			maze[get_cord(curr)] = 'X';
+
 		//draw_ppath(maze);
-		 //Check moving up
-		 neighbor.x = curr.x;
-		 neighbor.y = curr.y-1;
-		 if( check_cell(maze, neighbor) >=1)
-		 {
-		 	frontier.push(neighbor);
-		 	parent[get_cord(neighbor)] = curr;
-		 }
 
-		 //Check moving down
-		 neighbor.x = curr.x;
-		 neighbor.y = curr.y+1;
-		 if(check_cell(maze, neighbor) >=1)
-		 {
-		 	frontier.push(neighbor);
+		//Check moving up
+		neighbor.x = curr.x;
+		neighbor.y = curr.y-1;
+		if( check_cell(maze, neighbor) >=1)
+		{
+			frontier.push(neighbor);
 		 	parent[get_cord(neighbor)] = curr;
-		 }
+		}
 
-		 //Check moving left
-		 neighbor.x = curr.x-1;
-		 neighbor.y = curr.y;
-		 if( check_cell(maze, neighbor) >=1)
-		 {
+		//Check moving down
+		neighbor.x = curr.x;
+		neighbor.y = curr.y+1;
+		if(check_cell(maze, neighbor) >=1)
+		{
 		 	frontier.push(neighbor);
 		 	parent[get_cord(neighbor)] = curr;
-		 }
+		}
 
-		 //Check moving right
-		 neighbor.x = curr.x+1;
-		 neighbor.y = curr.y;
-		 if(check_cell(maze, neighbor) >=1)
-		 {
+		//Check moving left
+		neighbor.x = curr.x-1;
+		neighbor.y = curr.y;
+		if( check_cell(maze, neighbor) >=1)
+		{
 		 	frontier.push(neighbor);
 		 	parent[get_cord(neighbor)] = curr;
-		 }
+		}
+
+		//Check moving right
+		neighbor.x = curr.x+1;
+		neighbor.y = curr.y;
+		if(check_cell(maze, neighbor) >=1)
+		{
+		 	frontier.push(neighbor);
+		 	parent[get_cord(neighbor)] = curr;
+		}
 
 		return BFS_R(maze, end, frontier, parent);
 	}
