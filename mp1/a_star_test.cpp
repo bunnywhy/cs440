@@ -1,24 +1,24 @@
 map<coord, int> cost_to_end;
 map<coord, int> totalCost;
+vector<coord> openSet;
+vector<coord> closedSet;
+map<coord, coord> cameFrom;
+map<coord, int> pathCost;
 
 int _a_star(char *maze, coord start, vector<coord> endset){
-	int curPathcost;
-	map<coord, coord> cameFrom;
-	vector<coord> openSet;
-	vector<coord> closedSet;
-	map<coord, int> pathCost;
 	
-
 	openSet.push_back(start);
 	pathCost[start] = 0;
 	totalCost[start] = optimal_cost(start, end);
-	_a_star_recursive(maze, start, endset);
+	_a_star_test(maze, start, endset);
 }
 
-int _a_star_recursive(char *maze, coord start, vector<coord> endset)
+int _a_star_test(char *maze, coord start, vector<coord> endset)
 {
-	coord prev_end,end;
 	coord current;
+	int curPathcost;
+	coord prev_end,end;
+	
 	//While frontier is not empty
 	while (!openSet.empty())
 	{
@@ -35,29 +35,31 @@ int _a_star_recursive(char *maze, coord start, vector<coord> endset)
 		//Check if we have reached 1 end point
 		if ((current.x == end.x) && (current.y == end.y))
 		{	
-			//Append current location to the path
-			vector<coord> result = totalPath(cameFrom, current);
 
-			//Since we have reached one point, draw the path onto the maze map
-			for (vector<coord>::iterator it = result.begin(); it != result.end(); it++)
-			{
-				//Skip starting point 'p'
-		 		if ((it->x == start.x) && (it->y == start.y))
-		 		{
-		 			continue;
-		 		}
-		 		maze[it->y * column + it->x] = '.';
-			}
 
 			endset.erase(remove(endset.begin(),endset.end(), current), endset.end());
 			if(endset.empty())
 			{
+				//Append current location to the path
+				vector<coord> result = totalPath(cameFrom, current);
+
+				//Since we have reached one point, draw the path onto the maze map
+				for (vector<coord>::iterator it = result.begin(); it != result.end(); it++)
+				{
+					//Skip starting point 'p'
+			 		if ((it->x == start.x) && (it->y == start.y))
+			 		{
+			 			continue;
+			 		}
+			 		maze[it->y * column + it->x] = '.';
+				}
 				return 1;
 			}
+
 			else
 			{
-				
-				return _a_star_recursive(maze, start, endset);
+				multi_update(coord curr, vector<coord> endset, map<coord, int> cost_to_end);
+				end = min_cost(endset, cost_to_end);				
 			}
 		}
 
