@@ -14,7 +14,7 @@ class coord
 {
 	public:
 		int x;
-		int y;	
+		int y;
 		bool operator==(const coord &other) const;
 		bool operator<(const coord &other) const;
 };
@@ -28,6 +28,9 @@ int get_cord(coord curr);
 //Cell status + boundary check
 int check_cell(char* maze, coord curr);
 
+//Duplicated main.cpp draw path function
+void draw_ppath(char * maze);
+
 			//Search method + helper function//
 //---------------------------------------------------------//
 
@@ -35,8 +38,8 @@ int check_cell(char* maze, coord curr);
 int AS(void);
 
 //Bread first search
-int BFS(char *maze, coord start, coord end);
-int BFS_R(char *maze,coord end, std::queue<coord> &pathq);
+int BFS(char *maze, coord start, coord end, int row, int column);
+int BFS_R(char *maze, coord end, std::queue<coord> &frontier, coord*parent);
 
 //Depth first search
 int DFS(char *maze, coord start, coord end);

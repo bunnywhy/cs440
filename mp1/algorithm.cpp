@@ -5,8 +5,8 @@ int x_max=0;
 int y_max=0;
 using namespace std;
 
-				//Commmon Class + functions//
-//---------------------------------------------------------------//
+                                    //Commmon Class + functions//
+//---------------------------------------------------------------------------------------------------------//
 
 int MD(coord curr, coord end)
 {
@@ -34,34 +34,59 @@ int get_cord(coord curr)
 
 int check_cell( char* maze, coord curr)
 {
+	//Boundary Check
 	if( curr.x>= x_max || curr.x<= x_min || curr.y>= y_max || curr.y<= y_min)
 		return 0;
 
-	if(maze[get_cord(curr)] == '%' || maze[get_cord(curr)] == 'X')
+	//Location content test
+	if(maze[get_cord(curr)] == '%' || maze[get_cord(curr)] == 'X' || maze[get_cord(curr)] == 'N')
 		return 0;
 
+	//Goal Test
 	if(maze[get_cord(curr)] == '.')
 		return 2;
 
+	//valid
 	else
 		return 1;
 }
-							//BFS//
-//-----------------------------------------------------------------//
+                                               //BFS//
+//------------------------------------------------------------------------------------------------------------//
 
-int BFS(char *maze, coord start, coord end)
+int BFS(char *maze, coord start, coord end, int row, int column)
 {
-	std::queue<coord> pathq;
-	pathq.push(start);								// qx -> pathq
-	return BFS_R(maze, end, pathq);
+	std::queue<coord> frontier;
+	coord parent[y_max*x_max];
+	coord curr;
+
+	x_max = column;
+	y_max = row;
+	//Push start point and mark it as a root node
+	parent[get_cord(start)].x=-1;
+	parent[get_cord(start)].y=-1;
+	frontier.push(start);
+
+	// check if we have sucessfully find a path to goal
+	if(BFS_R(maze, end, frontier, parent) == 1)			 // qx -> frontier
+	{
+		curr = parent[get_cord(end)];
+		while(curr.x != -1)
+		{
+			maze[get_cord(curr)] = '-';
+			curr = parent[get_cord(curr)];
+		}
+		return  1;
+	}
+
+	else
+		return -1;
 }
 
-int BFS_R(char *maze,coord end, std::queue<coord> &pathq)
+int BFS_R(char *maze, coord end, std::queue<coord> &frontier, coord *parent)
 {
-	/*coord curr;										// path -> coord
-
-	curr = pathq.front();
-	pathq.pop();
+	coord curr,neighbor;								// path -> coord
+	curr = frontier.front();
+	frontier.pop();
 
 
 	if (curr == end)
@@ -69,49 +94,59 @@ int BFS_R(char *maze,coord end, std::queue<coord> &pathq)
 		return 1;
 	}
 
-	else if (pathq.empty())
+	else if (frontier.empty())
 	{
 		return -1;
 	}
 
 	else
 	{
-		//Modify current loc. status
-		maze[get_cord(curr)] = '.';
+		maze[get_cord(curr)] = 'X';
+		draw_ppath(maze);
+		 //Check moving up
+		 neighbor.x = curr.x;
+		 neighbor.y = curr.y-1;
+		 if( check_cell(maze, neighbor) >=1)
+		 {
+		 	frontier.push(neighbor);
+		 	parent[get_cord(neighbor)] = curr;
+		 }
 
-		//Push Right Neighbor
-		if( check_cell( maze,(curr.x+1), y) && ((curr.x+1)<=x_max) )
-		{
-			qx.push(x+1);
-			qy.push(y);
-		}
+		 //Check moving down
+		 neighbor.x = curr.x;
+		 neighbor.y = curr.y+1;
+		 if(check_cell(maze, neighbor) >=1)
+		 {
+		 	frontier.push(neighbor);
+		 	parent[get_cord(neighbor)] = curr;
+		 }
 
-		//Push Left Neighbor
-		if( check_cell( maze,(x-1), y) && ((x-1)>=x_min) )
-		{
-			qx.push(x-1);
-			qy.push(y);
-		}
-		//Push Down Neighbor
-		if( check_cell( maze,x, (y+1)) && ((y+1)<=y_max) )
-		{
-			qx.push(x);
-			qy.push(y+1);
-		}
-		//Push Up Neighbor
-		if( check_cell( maze,x,(y-1)) && ((y-1)>=y_min) )
-		{
-			qx.push(x);
-			qy.push(y-1);
-		}
+		 //Check moving left
+		 neighbor.x = curr.x-1;
+		 neighbor.y = curr.y;
+		 if( check_cell(maze, neighbor) >=1)
+		 {
+		 	frontier.push(neighbor);
+		 	parent[get_cord(neighbor)] = curr;
+		 }
 
-		return BFS_R(maze, x_end, y_end, qx, qy);
-	}*/
+		 //Check moving right
+		 neighbor.x = curr.x+1;
+		 neighbor.y = curr.y;
+		 if(check_cell(maze, neighbor) >=1)
+		 {
+		 	frontier.push(neighbor);
+		 	parent[get_cord(neighbor)] = curr;
+		 }
+
+		return BFS_R(maze, end, frontier, parent);
+	}
 	return 0;
 
 }
 
-
+                                               //BFS//
+//------------------------------------------------------------------------------------------------------------//
 int DFS(char *maze, coord start, coord end)
 {
 	std::stack<coord> paths;
@@ -167,12 +202,8 @@ int DFS_R(char *maze, coord end, std::stack<coord> &paths)
 		return 0;
 }
 
-int AS(void)
-{
-	return 0;
-}
-
-
+                                               //GFS//
+//------------------------------------------------------------------------------------------------------------//
 int GFS(char* maze, coord start, coord end, int row, int column)
 {
 	int point=0;
