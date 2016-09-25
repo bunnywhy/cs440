@@ -7,10 +7,11 @@ using namespace std;
 FILE *in;
 coord start;
 coord endpoint[30];
+vector<coord> endset;
 int row, column =0;
 int x_max=0;
 int y_max=0;
-
+int dot_counter = 0;
 //--------------------------------Draw Path----------------------------------------//
 void draw_path(char * maze)
 {
@@ -31,7 +32,6 @@ void printMaze(char* argv)
 {
 	char c=0;
 	int i = 0;
-	int dot_counter = 0;
 	int input;
 	in = fopen(argv, "r");
 	
@@ -67,7 +67,7 @@ void printMaze(char* argv)
 		}
 		cout << endl;
 	}
-
+	conversion(endpoint);
 	//Print Start and End point
 	cout << "start: (" << start.x << "," <<start.y << ")" <<endl;
 	cout << "end: (" << endpoint[0].x << "," << endpoint[0].y << ")" <<endl;

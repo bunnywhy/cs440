@@ -11,4 +11,5 @@ int check_wall(char* maze, coord current);
 void find_neighbor(char* maze, coord current);
 int a_star(char *maze, coord start, coord end);
 vector<coord> totalPath(map<coord, coord> path, coord current);
+int optimal_cost(coord cur, coord end);
 #endif

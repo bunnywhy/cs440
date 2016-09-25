@@ -12,6 +12,14 @@ int MD(coord curr, coord end)
 	return abs(curr.x - end.x) + abs(curr.y - end.y);
 }
 
+vector<coord> conversion(coord* array){
+	for (int i = 0; i < dot_counter; i++)
+	{
+		endset.push_back(array[i]);
+	}
+	return endset;
+}
+
 bool coord::operator==(const coord &other) const 
  {
  	if( other.x == this->x && other.y == this->y)
@@ -441,5 +449,6 @@ int GFS_move(char* maze, coord start, coord end)
 	 //Return shortest distance direction
 	 return direction;
 }
+
 
 

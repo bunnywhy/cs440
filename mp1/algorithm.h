@@ -7,7 +7,8 @@
 #include <stdio.h>
 #include <cstdlib>
 #include <stack>
-extern int x_max, y_max;
+using namespace std;
+extern int x_max, y_max, dot_counter;
 				//Commmon Class + functions//
 //----------------------------------------------------------//
 class coord
@@ -19,8 +20,12 @@ class coord
 		bool operator<(const coord &other) const;
 };
 
+extern std::vector<coord> endset;
 //Manhatten distance calc.
 int MD(coord curr, coord end);
+
+//convert the endpoint from array to vector form
+vector<coord> conversion(coord* array);
 
 //coordinate for maze array calc
 int get_cord(coord curr);

@@ -2,6 +2,14 @@
 using namespace std;
 vector<coord> neighbor;
 
+int optimal_cost(coord cur, coord end){
+	int euc_val = floor(sqrt(pow((cur.x - end.x), 2) + pow((cur.y - end.y), 2)));	
+	int md_val = MD(cur, end);
+	return max(euc_val, md_val);
+}
+
+
+
 coord min_cost(vector<coord> openSet, map<coord, int> cost){
 	vector<coord>::iterator it;
 	int current_min = 10000;
@@ -129,4 +137,5 @@ vector<coord> totalPath(map<coord, coord> path, coord current){
 	}
 	return totalPath;
 }
+
 
