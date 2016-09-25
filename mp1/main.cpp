@@ -1,10 +1,24 @@
 #include "algorithm.h"
+#include "a_star.h"
 using namespace std;
 
 FILE *in;
 coord start;
 coord endpoint[30];
 int row, column =0;
+
+void draw_path(char * maze)
+{
+	int i = 0;
+	for (i = 0; i < row; i++)
+	{
+		for (int j = 0; j < column ; j++)
+		{
+			cout << maze[i * column + j];
+		}
+		cout << endl;
+	}
+}
 
 void printMaze(char* argv)
 {
@@ -45,6 +59,11 @@ void printMaze(char* argv)
 		}
 		cout << endl;
 	}
+	cout << a_star(maze, start, endpoint[0]) << endl;
+	cout << start.x << ' ' << start.y << endl;
+	cout << endpoint[0].x << ' '<< endpoint[0].y << endl;
+	draw_path(maze);
+
 }
 
 int main(int argc, char *argv[])
@@ -96,12 +115,6 @@ int main(int argc, char *argv[])
 	return 0;
 }
 
-
-void draw_path(char * maze)
-{
-
-}
 /* Can we make two global arrays (one for x and one for y) to save the path we figured out
    by the algorithms to print it out?
 */ 
-
