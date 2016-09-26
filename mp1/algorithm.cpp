@@ -46,11 +46,11 @@ int check_cell(char* maze, coord curr)
 		return 0;
 
 	//Location content test
-	if(maze[get_cord(curr)] == '%' || maze[get_cord(curr)] == 'X' || maze[get_cord(curr)] == 'N' || maze[get_cord(curr)] == 'P')
+	else if(maze[get_cord(curr)] == '%' || maze[get_cord(curr)] == 'X' || maze[get_cord(curr)] == 'N' || maze[get_cord(curr)] == 'P')
 		return 0;
 
 	//Goal Test
-	if(maze[get_cord(curr)] == '.')
+	else if(maze[get_cord(curr)] == '.')
 		return 2;
 
 	//valid

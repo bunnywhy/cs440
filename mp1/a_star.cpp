@@ -231,14 +231,18 @@ int _a_star_test(char *maze, coord start, vector<coord> endset)
 				vector<coord> result = totalPath(cameFrom, current);
 
 				//Since we have reached one point, draw the path onto the maze map
-				for (vector<coord>::iterator it = result.begin(); it != result.end(); it++)
+				for (int i = 0; i < result.size(); i++)
 				{
+					if ((result[i].x == -1) || (result[i].y == -1))
+					{
+						continue;
+					}
 					//Skip starting point 'p'
-			 		if ((it->x == start.x) && (it->y == start.y))
+			 		if ((result[i].x == start.x) && (result[i].y == start.y))
 			 		{
 			 			continue;
 			 		}
-			 		maze[it->y * column + it->x] = '.';
+			 		maze[get_cord(result[i])] = '.';
 				}
 				return 1;
 			}

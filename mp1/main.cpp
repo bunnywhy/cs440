@@ -30,13 +30,13 @@ void draw_path(char * maze)
 //-------------------------Print Maze + Maze Solver-------------------------------//
 void printMaze(char* argv)
 {
-	char c=0;
+	char c;
 	int i = 0;
 	int input;
 	in = fopen(argv, "r");
 	
 	//char *maze = new char [column*row];
-	char *maze = new char[row*column];
+	char *maze = new char[row * column + 1];
 
 	do
 	{
@@ -46,8 +46,11 @@ void printMaze(char* argv)
 			maze[i] = c;
 			i++;
 		}
+
 	}while(c != EOF);
+
 	fclose(in);
+	cout << "maze size" << i << endl;
 	cout << "x-max: " << column << " | y-max: " << row << endl;
 	for (i = 0; i < row; i++)
 	{
@@ -132,7 +135,7 @@ void printMaze(char* argv)
 	{
 		cout << "Please enter a number between 1-4" << endl;
 	}
-	delete [] maze;
+	delete[] maze;
 }
 
 
@@ -176,7 +179,7 @@ int main(int argc, char *argv[])
 	//Start scanning amount of rows
 	do
 	{
-		c = fgetc(in);
+		c = (char)fgetc(in);
 		if (c == '\n')
 		{
 			row++;
@@ -194,11 +197,11 @@ int main(int argc, char *argv[])
 	y_max = row;
 
 	//Start execute print maze, which also does search algo.
-	cout<< argc<<endl;
-	if (argc != 2)
+	if (argc != 2){
 		printMaze(dfault);
-	else
+	}
+	else{
 		printMaze(argv[1]);
-
+	}
 	return 1;
 }
