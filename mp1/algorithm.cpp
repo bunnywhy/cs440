@@ -79,6 +79,7 @@ int BFS(char *maze, coord start, coord end)
 	// check if we have sucessfully find a path to goal
 	if(BFS_R(maze, end, frontier, parent) == 1)
 	{
+		//cout<<"segfault check2"<<endl;
 		//While we have not reached the start point, keep drawing path
 		curr = parent[get_cord(end)];
 		while(curr.x != -1)
@@ -87,14 +88,14 @@ int BFS(char *maze, coord start, coord end)
 				maze[get_cord(curr)] = '.';
 
 			curr = parent[get_cord(curr)];
-			//pcost++;
+			pcost++;
 		}
 
 		//Free memory and return
 		delete[] parent;
+		//cout<<"segfault check"<<endl;
 		return  1;	
 	}
-
 	//We have not find a path, return error
 	else
 	{
@@ -123,19 +124,20 @@ int BFS_R(char *maze, coord end, std::queue<coord> &frontier, coord *parent)
 
 	else
 	{
-		if(maze[get_cord(curr)] != 'P')
-			maze[get_cord(curr)] = 'X';
 
 		//draw_ppath(maze);
-
+		//cout<<frontier.size()<<endl;
 		//Check moving up
 		neighbor.x = curr.x;
 		neighbor.y = curr.y-1;
 		if( check_cell(maze, neighbor) >=1)
 		{
-			//nvisit++;
+			nvisit++;
 			frontier.push(neighbor);
 		 	parent[get_cord(neighbor)] = curr;
+
+		 	if(maze[get_cord(neighbor)] != 'P')
+				maze[get_cord(neighbor)] = 'X';
 		}
 
 		//Check moving down
@@ -143,9 +145,12 @@ int BFS_R(char *maze, coord end, std::queue<coord> &frontier, coord *parent)
 		neighbor.y = curr.y+1;
 		if(check_cell(maze, neighbor) >=1)
 		{
-			//nvisit++;
+			nvisit++;
 		 	frontier.push(neighbor);
 		 	parent[get_cord(neighbor)] = curr;
+
+		 	if(maze[get_cord(neighbor)] != 'P')
+				maze[get_cord(neighbor)] = 'X';
 		}
 
 		//Check moving left
@@ -153,9 +158,12 @@ int BFS_R(char *maze, coord end, std::queue<coord> &frontier, coord *parent)
 		neighbor.y = curr.y;
 		if( check_cell(maze, neighbor) >=1)
 		{
-			//nvisit++;
+			nvisit++;
 		 	frontier.push(neighbor);
 		 	parent[get_cord(neighbor)] = curr;
+
+		 	if(maze[get_cord(neighbor)] != 'P')
+				maze[get_cord(neighbor)] = 'X';
 		}
 
 		//Check moving right
@@ -163,9 +171,12 @@ int BFS_R(char *maze, coord end, std::queue<coord> &frontier, coord *parent)
 		neighbor.y = curr.y;
 		if(check_cell(maze, neighbor) >=1)
 		{
-			//nvisit++;
+			nvisit++;
 		 	frontier.push(neighbor);
 		 	parent[get_cord(neighbor)] = curr;
+
+		 	if(maze[get_cord(neighbor)] != 'P')
+				maze[get_cord(neighbor)] = 'X';
 		}
 
 		return BFS_R(maze, end, frontier, parent);
@@ -238,8 +249,8 @@ int DFS_R(char *maze, coord end, std::stack<coord> &frontier, coord *parent)
 
 	else
 	{
-		if(maze[get_cord(curr)] != 'P')
-			maze[get_cord(curr)] = 'X';
+		/*if(maze[get_cord(curr)] != 'P')
+			maze[get_cord(curr)] = 'X';*/
 
 		//draw_ppath(maze);
 
@@ -251,6 +262,9 @@ int DFS_R(char *maze, coord end, std::stack<coord> &frontier, coord *parent)
 			nvisit++;
 			frontier.push(neighbor);
 		 	parent[get_cord(neighbor)] = curr;
+
+		 	if(maze[get_cord(neighbor)] != 'P')
+				maze[get_cord(neighbor)] = 'X';
 		}
 
 		//Check moving down
@@ -261,6 +275,9 @@ int DFS_R(char *maze, coord end, std::stack<coord> &frontier, coord *parent)
 			nvisit++;
 		 	frontier.push(neighbor);
 		 	parent[get_cord(neighbor)] = curr;
+
+		 	if(maze[get_cord(neighbor)] != 'P')
+				maze[get_cord(neighbor)] = 'X';
 		}
 
 		//Check moving left
@@ -271,6 +288,9 @@ int DFS_R(char *maze, coord end, std::stack<coord> &frontier, coord *parent)
 			nvisit++;
 		 	frontier.push(neighbor);
 		 	parent[get_cord(neighbor)] = curr;
+
+		 	if(maze[get_cord(neighbor)] != 'P')
+				maze[get_cord(neighbor)] = 'X';
 		}
 
 		//Check moving right
@@ -281,6 +301,9 @@ int DFS_R(char *maze, coord end, std::stack<coord> &frontier, coord *parent)
 			nvisit++;
 		 	frontier.push(neighbor);
 		 	parent[get_cord(neighbor)] = curr;
+
+		 	if(maze[get_cord(neighbor)] != 'P')
+				maze[get_cord(neighbor)] = 'X';
 		}
 
 		return DFS_R(maze, end, frontier, parent);
@@ -318,17 +341,17 @@ void draw_ppath(char * maze)
 	int i = 0;
 	for (i = 0; i < y_max; i++)
 	{
-		cout<<i;
+		//cout<<i;
 		for (int j = 0; j < x_max ; j++)
 		{
 			cout << maze[i * x_max + j];
 		}
 		cout << endl;
 	}
-	cout<<' ';
-	for (int j = 0; j < x_max ; j++)
-		cout<<j;
-	cout<<endl;
+	//cout<<' ';
+	//for (int j = 0; j < x_max ; j++)
+	//	cout<<j;
+	//cout<<endl;
 }
 
 int GFS_Recurr(char* maze, coord curr, coord end, coord* path, int &point)

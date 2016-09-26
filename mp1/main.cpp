@@ -21,7 +21,10 @@ void draw_path(char * maze)
 	{
 		for (int j = 0; j < column ; j++)
 		{
-			cout << maze[i * column + j];
+			if(maze[i * column + j]!= 'X')
+				cout << maze[i * column + j];
+			else
+				cout<<' ';
 		}
 		cout << endl;
 	}
@@ -152,7 +155,7 @@ int main(int argc, char *argv[])
 	char c=0;
 	row = 0;
 	column = 0;
-	char dfault[17] = "mediumSearch.txt";
+	char dfault[15] = "openMaze.txt";
 
 	//Check amount of argument is correct, if not use default mediummaze
 	if (argc != 2)
