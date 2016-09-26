@@ -308,12 +308,17 @@ void draw_ppath(char * maze)
 	int i = 0;
 	for (i = 0; i < y_max; i++)
 	{
+		cout<<i;
 		for (int j = 0; j < x_max ; j++)
 		{
 			cout << maze[i * x_max + j];
 		}
 		cout << endl;
 	}
+	cout<<' ';
+	for (int j = 0; j < x_max ; j++)
+		cout<<j;
+	cout<<endl;
 }
 
 int GFS_Recurr(char* maze, coord curr, coord end, coord* path, int &point)

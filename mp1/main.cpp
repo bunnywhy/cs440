@@ -70,8 +70,12 @@ void printMaze(char* argv)
 	vector<coord> end = conversion(endpoint);
 	//Print Start and End point
 	cout << "start: (" << start.x << "," <<start.y << ")" <<endl;
-	cout << "end: (" << endpoint[0].x << "," << endpoint[0].y << ")" <<endl;
-
+	cout << "end: ";
+	for (int i = 0; i < dot_counter; i++)
+	{
+		cout << "(" << endpoint[i].x << "," << endpoint[i].y << ") " ;
+	}
+	cout << endl;
 	cout << "select an algorithm from the list:" << endl;
 	cout << "1. BFS" << endl;
 	cout << "2. DFS" << endl;
