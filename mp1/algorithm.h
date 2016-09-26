@@ -9,6 +9,7 @@
 #include <stack>
 using namespace std;
 extern int x_max, y_max, dot_counter;
+extern int pcost, nvisit;
 				//Commmon Class + functions//
 //----------------------------------------------------------//
 class coord

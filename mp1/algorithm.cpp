@@ -87,6 +87,7 @@ int BFS(char *maze, coord start, coord end)
 				maze[get_cord(curr)] = '.';
 
 			curr = parent[get_cord(curr)];
+			//pcost++;
 		}
 
 		//Free memory and return
@@ -132,6 +133,7 @@ int BFS_R(char *maze, coord end, std::queue<coord> &frontier, coord *parent)
 		neighbor.y = curr.y-1;
 		if( check_cell(maze, neighbor) >=1)
 		{
+			//nvisit++;
 			frontier.push(neighbor);
 		 	parent[get_cord(neighbor)] = curr;
 		}
@@ -141,6 +143,7 @@ int BFS_R(char *maze, coord end, std::queue<coord> &frontier, coord *parent)
 		neighbor.y = curr.y+1;
 		if(check_cell(maze, neighbor) >=1)
 		{
+			//nvisit++;
 		 	frontier.push(neighbor);
 		 	parent[get_cord(neighbor)] = curr;
 		}
@@ -150,6 +153,7 @@ int BFS_R(char *maze, coord end, std::queue<coord> &frontier, coord *parent)
 		neighbor.y = curr.y;
 		if( check_cell(maze, neighbor) >=1)
 		{
+			//nvisit++;
 		 	frontier.push(neighbor);
 		 	parent[get_cord(neighbor)] = curr;
 		}
@@ -159,6 +163,7 @@ int BFS_R(char *maze, coord end, std::queue<coord> &frontier, coord *parent)
 		neighbor.y = curr.y;
 		if(check_cell(maze, neighbor) >=1)
 		{
+			//nvisit++;
 		 	frontier.push(neighbor);
 		 	parent[get_cord(neighbor)] = curr;
 		}
@@ -194,9 +199,9 @@ int DFS(char *maze, coord start, coord end)
 		curr = parent[get_cord(end)];
 		while(curr.x != -1)
 		{
+			pcost++;
 			if(maze[get_cord(curr)] != 'P')
 				maze[get_cord(curr)] = '.';
-
 			curr = parent[get_cord(curr)];
 		}
 
@@ -243,6 +248,7 @@ int DFS_R(char *maze, coord end, std::stack<coord> &frontier, coord *parent)
 		neighbor.y = curr.y-1;
 		if( check_cell(maze, neighbor) >=1)
 		{
+			nvisit++;
 			frontier.push(neighbor);
 		 	parent[get_cord(neighbor)] = curr;
 		}
@@ -252,6 +258,7 @@ int DFS_R(char *maze, coord end, std::stack<coord> &frontier, coord *parent)
 		neighbor.y = curr.y+1;
 		if(check_cell(maze, neighbor) >=1)
 		{
+			nvisit++;
 		 	frontier.push(neighbor);
 		 	parent[get_cord(neighbor)] = curr;
 		}
@@ -261,6 +268,7 @@ int DFS_R(char *maze, coord end, std::stack<coord> &frontier, coord *parent)
 		neighbor.y = curr.y;
 		if( check_cell(maze, neighbor) >=1)
 		{
+			nvisit++;
 		 	frontier.push(neighbor);
 		 	parent[get_cord(neighbor)] = curr;
 		}
@@ -270,6 +278,7 @@ int DFS_R(char *maze, coord end, std::stack<coord> &frontier, coord *parent)
 		neighbor.y = curr.y;
 		if(check_cell(maze, neighbor) >=1)
 		{
+			nvisit++;
 		 	frontier.push(neighbor);
 		 	parent[get_cord(neighbor)] = curr;
 		}
@@ -295,6 +304,7 @@ int GFS(char* maze, coord start, coord end)
 		for(int i=0 ; i<point ;  i++)
 		{
 			maze[get_cord(path[i])] = '.';
+			pcost++;
 		}
 		return 1;
 	}
@@ -386,6 +396,7 @@ int GFS_Recurr(char* maze, coord curr, coord end, coord* path, int &point)
 		if(ret_val == -2)
 			break;
 
+		nvisit++;
 		ret_val = GFS_Recurr(maze, next, end, path, point);
 
 		//Check return value

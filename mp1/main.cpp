@@ -12,6 +12,7 @@ int row, column =0;
 int x_max=0;
 int y_max=0;
 int dot_counter = 0;
+int nvisit, pcost;
 //--------------------------------Draw Path----------------------------------------//
 void draw_path(char * maze)
 {
@@ -70,6 +71,9 @@ void printMaze(char* argv)
 		}
 		cout << endl;
 	}
+
+	pcost  = 0;
+	nvisit = 0;
 	vector<coord> end = conversion(endpoint);
 	//Print Start and End point
 	cout << "start: (" << start.x << "," <<start.y << ")" <<endl;
@@ -85,6 +89,7 @@ void printMaze(char* argv)
 	cout << "3. Greedy" << endl;
 	cout << "4. A* (choose me)" << endl;
 	cin >> input;
+
 
 	if (input == 1)
 	{
@@ -135,6 +140,8 @@ void printMaze(char* argv)
 	{
 		cout << "Please enter a number between 1-4" << endl;
 	}
+	cout<<"Path Cost: "<<pcost<<endl;
+	cout<<"Node Visited: "<<nvisit<<endl;
 	delete[] maze;
 }
 
