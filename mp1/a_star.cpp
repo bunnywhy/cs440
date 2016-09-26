@@ -7,8 +7,9 @@ vector<coord> openSet;
 vector<coord> closedSet;
 map<coord, coord> cameFrom;
 map<coord, int> pathCost;
-#define debug 1
-int optimal_cost(coord cur, coord end){
+#define debug 0
+int optimal_cost(coord cur, coord end)
+{
 	int euc_val;
 	int md_val;
 	euc_val = floor(sqrt(pow((cur.x - end.x), 2) + pow((cur.y - end.y), 2)));	
@@ -23,7 +24,8 @@ int optimal_cost(coord cur, coord end){
 
 
 
-coord min_cost(vector<coord> openSet, map<coord, int> cost){
+coord min_cost(vector<coord> openSet, map<coord, int> cost)
+{
 	vector<coord>::iterator it;
 	int current_min = 10000;
 	coord current_node;
@@ -31,7 +33,8 @@ coord min_cost(vector<coord> openSet, map<coord, int> cost){
 	current_node.y = -1;
 	for (int i = 0; i < openSet.size(); i++)
 	{
-		if (cost[openSet[i]] < current_min){
+		if (cost[openSet[i]] < current_min)
+		{
 			current_min = cost[openSet[i]];
 			current_node.x = openSet[i].x;
 			current_node.y = openSet[i].y;
@@ -53,30 +56,39 @@ void _draw_path(char * maze)
 	}
 }
 
-void find_neighbor(char* maze, coord current){
+void find_neighbor(char* maze, coord current)
+{
 	coord left;
 	left.x = current.x - 1;
 	left.y = current.y;
+
 	coord right;
 	right.x = current.x + 1;
 	right.y = current.y;
+
 	coord up;
 	up.x = current.x;
 	up.y = current.y - 1;
+
 	coord down;
 	down.x = current.x;
 	down.y = current.y + 1;
-	if (check_cell(maze, left) >= 1){
+
+	if (check_cell(maze, left) >= 1)
+	{
 		neighbor.push_back(left);
 	}
+
 	if (check_cell(maze, right) >= 1)
 	{
 		neighbor.push_back(right);
 	}
+
 	if (check_cell(maze, up) >= 1)
 	{
 		neighbor.push_back(up);
 	}
+
 	if (check_cell(maze, down) >= 1)
 	{
 		neighbor.push_back(down);
@@ -141,17 +153,20 @@ void find_neighbor(char* maze, coord current){
 	return 0;
 }*/
 
-vector<coord> totalPath(map<coord, coord> path, coord current){
+vector<coord> totalPath(map<coord, coord> path, coord current)
+{
 	vector<coord> totalPath;
 	totalPath.push_back(current);
-	while(path.find(current) != path.end()){
+	while(path.find(current) != path.end())
+	{
 		current = path[current];
 		totalPath.push_back(current);
 	}
 	return totalPath;
 }
 
-int _a_star(char *maze, coord start, vector<coord> endset){
+int _a_star(char *maze, coord start, vector<coord> endset)
+{
 	
 	openSet.push_back(start);
 	pathCost[start] = 0;
@@ -161,45 +176,55 @@ int _a_star(char *maze, coord start, vector<coord> endset){
 
 int _a_star_test(char *maze, coord start, vector<coord> endset)
 {
-	coord current;
 	int curPathcost;
-	coord prev_end,end, parent;
+	coord current, prev_end,end, parent;
 
 	multi_update(start, endset);
 	end = min_cost(endset, cost_to_end); 
 	prev_end = end;
-	parent = start;
+
+	current.x=-1;
+	current.y=-1;
+
 	//While frontier is not empty
 	while (!openSet.empty())
 	{
-		if(debug)
-			draw_ppath(maze);
+		//If we have changed our destination
 		if(!(prev_end == end))
 		{
 			if(debug)
+			{
 				cout<<"endpoint update"<<endl;
 				cout << "endpoint: " << end.x << " " << end.y << endl;
+			}
+
 			//update all total_cost
 			update_all_total_cost(end, openSet);
-			//cout << "endpoint:" << end.x << "," << end.y << endl;
 			prev_end = end;
 		}
-		parent = current;
+
+		//Reccord the current point as part of the path, and find next node
+		parent  = current;
 		current = min_cost(openSet, totalCost);
 		cameFrom[current] = parent;
-		if(debug)
+
+		if(debug&0)
 			maze[get_cord(current)] = 'x';
-			//cout << "endpoint: " << end.x << " " << end.y << endl; 
+
+		//cout << "endpoint: " << end.x << " " << end.y << endl; 
 		//cout << "current.x:" << current.x << ' ' << "current.y" << current.y << endl;
 		//cout << "current cost:" << totalCost[current] << endl;
 
 		//Check if we have reached 1 end point
 		if ((current.x == end.x) && (current.y == end.y))
 		{	
-			cout << "reached point!"<<endl;
-			if(debug)
-				maze[get_cord(current)] = 'x';
+
+			//Rremove current point from the end point set
 			endset.erase(remove(endset.begin(),endset.end(), current), endset.end());
+
+			if(debug)
+				cout<<"endset: "<<endset.size()<<endl;
+
 			if(endset.empty())
 			{
 				//Append current location to the path
@@ -221,7 +246,14 @@ int _a_star_test(char *maze, coord start, vector<coord> endset)
 			else
 			{
 				multi_update(current, endset);
-				end = min_cost(endset, cost_to_end);				
+				end = min_cost(endset, cost_to_end);
+				update_all_total_cost(end, openSet);
+				prev_end = end;				
+			}
+
+			if(debug)
+			{
+				maze[get_cord(current)] = 'x';
 			}
 		}
 
@@ -241,10 +273,10 @@ int _a_star_test(char *maze, coord start, vector<coord> endset)
 		for (int i = 0; i < neighbor.size(); i++)
 		{
 			//cout << "neighbor" << neighbor[i].x << ' ' << neighbor[i].y << endl;
-			//if(debug)
-			//	draw_ppath(maze);
+
 			//If neighbor is already explored, skip them
-			if (find(closedSet.begin(), closedSet.end(), neighbor[i]) != closedSet.end()){
+			if (find(closedSet.begin(), closedSet.end(), neighbor[i]) != closedSet.end())
+			{
 				continue;
 			}
 
@@ -267,16 +299,18 @@ int _a_star_test(char *maze, coord start, vector<coord> endset)
 			}
 
 			// from current loc to neighbor is closer than original path, therefore throw away prevoious path to neighbor
-			//cameFrom[neighbor[i]] = current;
 			pathCost[neighbor[i]] = curPathcost;
-			//if(debug)
-			//	maze[get_cord(neighbor[i])] = 'x';
+
 			//Update total cost
 			totalCost[neighbor[i]] = pathCost[neighbor[i]] + optimal_cost(neighbor[i], end);
+
 			//cout << "neighbor totalCost:" << totalCost[neighbor[i]] << endl;
 		}
 		multi_update(current, endset);
 		end = min_cost(endset, cost_to_end);
+
+		if(debug)
+			draw_ppath(maze);
 	}
 	return 0;
 }
@@ -293,7 +327,7 @@ void update_all_total_cost(coord end, vector<coord> &openSet)
 {
 	for(int i = 0; i < openSet.size(); i++)
 	{
-		totalCost[openSet[i]] = optimal_cost(end, openSet[i]);
+		totalCost[openSet[i]] = pathCost[openSet[i]]+optimal_cost(end, openSet[i]);
 		//cout << "totalCost:" << totalCost[openSet[i]] << endl;
 	}
 }

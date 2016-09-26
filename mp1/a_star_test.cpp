@@ -36,7 +36,6 @@ int _a_star_test(char *maze, coord start, vector<coord> endset)
 		if ((current.x == end.x) && (current.y == end.y))
 		{	
 
-
 			endset.erase(remove(endset.begin(),endset.end(), current), endset.end());
 			if(endset.empty())
 			{

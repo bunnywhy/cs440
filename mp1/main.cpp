@@ -133,7 +133,6 @@ void printMaze(char* argv)
 		cout << "Please enter a number between 1-4" << endl;
 	}
 	delete [] maze;
-
 }
 
 
@@ -143,7 +142,7 @@ int main(int argc, char *argv[])
 	char c=0;
 	row = 0;
 	column = 0;
-	char dfault[15] = "mediumMaze.txt";
+	char dfault[15] = "tinySearch.txt";
 
 	//Check amount of argument is correct, if not use default mediummaze
 	if (argc != 2)
@@ -193,10 +192,12 @@ int main(int argc, char *argv[])
 	fclose(in);
 	x_max = column;
 	y_max = row;
+
 	//Start execute print maze, which also does search algo.
 	if (argc != 2)
 		printMaze(dfault);
-	printMaze(argv[1]);
+	else
+		printMaze(argv[1]);
 
-	return 0;
+	return 1;
 }
