@@ -277,10 +277,10 @@ int _a_star_test(char *maze, coord start, vector<coord> endset)
 		current = min_cost(openSet, totalCost);
 		cameFrom[current] = parent;
 
-		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!?/
-		maze[get_cord(current)] = ca[counter];
+		//!!!!!!!!!!!!!!!!!!!Turn this on for code enumerating!!!!!!!!!!!!!!!!!!!!!!!!?/
+		/*maze[get_cord(current)] = ca[counter];
 		counter = (counter+1)%(10+26*2);
-		draw_ppath(maze);
+		draw_ppath(maze);*/
 		//cout << "endpoint: " << end.x << " " << end.y << endl; 
 		//cout << "current.x:" << current.x << ' ' << "current.y" << current.y << endl;
 		//cout << "current cost:" << totalCost[current] << endl;
