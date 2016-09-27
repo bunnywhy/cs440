@@ -128,15 +128,32 @@ void printMaze(char* argv)
 	}
 	else if (input == 4)
 	{
-		if (_a_star(maze, start, end) == 1)
+		if(endset.size() >1)
 		{
-			cout << "Sucess!" << endl;
-			draw_path(maze);
+			if (_a_star(maze, start, end) == 1)
+			{
+				cout << "Sucess!" << endl;
+				draw_path(maze);
+			}
+			else
+			{
+				cout << "Shame!" << endl;
+				draw_path(maze);
+			}
 		}
+
 		else
 		{
-			cout << "Shame!" << endl;
-			draw_path(maze);
+			if (a_star(maze, start, endpoint[0]) == 1)
+			{
+				cout << "Sucess!" << endl;
+				draw_path(maze);
+			}
+			else
+			{
+				cout << "Shame!" << endl;
+				draw_path(maze);
+			}
 		}
 	}
 	else

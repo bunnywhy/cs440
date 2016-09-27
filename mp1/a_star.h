@@ -12,6 +12,7 @@ void find_neighbor(char* maze, coord current);
 //int a_star(char *maze, coord start, coord end);
 vector<coord> totalPath(map<coord, coord> path, coord current);
 int optimal_cost(coord cur, coord end);
+int a_star(char *maze, coord start, coord end);
 void update_all_total_cost(coord end, vector<coord> &openSet);
 void multi_update(coord curr, vector<coord> &endset);
 int _a_star_test(char *maze, coord start, vector<coord> endset);

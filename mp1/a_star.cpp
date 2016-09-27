@@ -95,7 +95,7 @@ void find_neighbor(char* maze, coord current)
 	}
 }
 
-/*int a_star(char *maze, coord start, coord end){
+int a_star(char *maze, coord start, coord end){
 	int curPathcost;
 	map<coord, coord> cameFrom;
 	vector<coord> openSet;
@@ -151,7 +151,7 @@ void find_neighbor(char* maze, coord current)
 		}
 	}
 	return 0;
-}*/
+}
 
 vector<coord> totalPath(map<coord, coord> path, coord current)
 {
