@@ -161,6 +161,7 @@ vector<coord> totalPath(map<coord, coord> path, coord current)
 	{
 		current = path[current];
 		totalPath.push_back(current);
+		pcost++;
 	}
 	return totalPath;
 }
@@ -266,6 +267,7 @@ int _a_star_test(char *maze, coord start, vector<coord> endset)
 
 		//Mark current loc. as explored
 		closedSet.push_back(current);
+		nvisit++;
 
 		//Reset neighbor for ucpoming update
 		neighbor.clear();
