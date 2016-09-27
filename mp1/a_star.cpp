@@ -113,14 +113,14 @@ coord min_cost(vector<coord> openSet, map<coord, int> cost)
 void _draw_path(char * maze)
 {
 	int i = 0;
-	/*for (i = 0; i < row; i++)
+	for (i = 0; i < row; i++)
 	{
 		for (int j = 0; j < column; j++)
 		{
 			cout << maze[i * column + j];
 		}
 		cout << endl;
-	}*/
+	}
 }
 
 void find_neighbor(char* maze, coord current)
